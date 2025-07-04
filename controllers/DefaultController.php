@@ -3,7 +3,6 @@
 namespace webzop\notifications\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\db\Query;
 use yii\data\Pagination;
@@ -13,21 +12,6 @@ use webzop\notifications\widgets\Notifications;
 
 class DefaultController extends Controller
 {
-
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ]
-                ]
-            ],
-        ];
-    }
 
     public $layout = "@app/views/layouts/main";
 
@@ -68,9 +52,11 @@ class DefaultController extends Controller
         $list = (new Query())
             ->from('{{%notifications}}')
             ->andWhere(['or', 'user_id = 0', 'user_id = :user_id'], [':user_id' => $userId])
+            ->andWhere(['read' => 0])
             ->orderBy(['id' => SORT_DESC])
             ->limit(10)
             ->all();
+            
         $notifs = $this->prepareNotifications($list);
         $this->ajaxResponse(['list' => $notifs]);
     }
@@ -94,11 +80,7 @@ class DefaultController extends Controller
 
     public function actionReadAll()
     {
-        Yii::$app->getDb()->createCommand()->update(
-            '{{%notifications}}',
-            ['read' => true, 'seen' => true],
-            ['user_id' => Yii::$app->user->id]
-            )->execute();
+        Yii::$app->getDb()->createCommand()->update('{{%notifications}}', ['read' => true])->execute();
         if(Yii::$app->getRequest()->getIsAjax()){
             return $this->ajaxResponse(1);
         }

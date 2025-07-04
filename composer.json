@@ -18,9 +18,9 @@
     ],
     "license": "BSD-3-Clause",
     "require": {
-        "php": ">=7.1",
-        "yiisoft/yii2": "~2.0.13",
-        "minishlink/web-push": "^5.2"
+        "php": ">=7.4.0",
+        "yiisoft/yii2": "~2.0.14",
+        "minishlink/web-push": "^7.0"
     },
     "autoload": {
         "psr-4": {
@@ -35,5 +35,10 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ]
+    ],
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
+        }
+    }
 }

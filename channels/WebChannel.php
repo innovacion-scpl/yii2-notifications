@@ -10,7 +10,8 @@ use webzop\notifications\Channel;
 use webzop\notifications\model\WebPushSubscription;
 use webzop\notifications\Notification;
 use Minishlink\WebPush\WebPush;
-
+use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * Class WebChannel
@@ -161,7 +162,7 @@ class WebChannel extends Channel
         // send all the notifications with payload
         foreach ($subscriptions as $subscription) {
 
-            $webPush->sendNotification(
+            $webPush->sendOneNotification(
                 $subscription,
                 json_encode(
                     $payload

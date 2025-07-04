@@ -15,6 +15,9 @@
 /**
  * when user click the notification the browser focus the web page already opened, otherwise opens a new window
  */
+
+
+
 self.addEventListener('notificationclick', function (event) {
     event.waitUntil(
         self.clients.matchAll().then(function (clientList) {

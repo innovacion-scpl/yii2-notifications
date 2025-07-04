@@ -3,6 +3,7 @@
  */
 
 var Notifications = (function(opts) {
+
     if(!opts.id){
         throw new Error('Notifications: the param id is required.');
     }
@@ -16,7 +17,7 @@ var Notifications = (function(opts) {
         pollInterval: 60000,
         xhrTimeout: 2000,
         readLabel: 'read',
-        markAsReadLabel: 'mark as read'
+        markAsReadLabel: 'Marcar como leído'
     }, opts);
 
     /**
@@ -26,20 +27,24 @@ var Notifications = (function(opts) {
      * @returns {jQuery|HTMLElement|*}
      */
     var renderRow = function (object) {
-        var html = '<div href="#" class="dropdown-item notification-item' + (object.read != '0' ? ' read' : '') + '"' +
+        var html = '<li href="#" class="dropdown-item notification-item' + (object.read != '0' ? ' read' : '') + '"' +
             ' data-id="' + object.id + '"' +
             ' data-class="' + object.class + '"' +
             ' data-key="' + object.key + '">' +
             '<span class="icon"></span> '+
             '<span class="message">' + object.message + '</span>' +
             '<small class="timeago">' + object.timeago + '</small>' +
-            '<span class="mark-read" data-toggle="tooltip" title="' + (object.read != '0' ? options.readLabel : options.markAsReadLabel) + '"></span>' +
-            '</div>';
+            '<span class="mark-read" data-bs-toggle="tooltip" title="' + (object.read != '0' ? options.readLabel : options.markAsReadLabel) + '"></span>' +
+            '</li>';
+
         return $(html);
     };
 
     var showList = function() {
+        
         var list = elem.find('.notifications-list');
+        $("#notifications-list").empty();
+
         $.ajax({
             url: options.url,
             type: "GET",
@@ -59,6 +64,7 @@ var Notifications = (function(opts) {
                     }
 
                     var item = renderRow(object);
+                    
                     item.find('.mark-read').on('click', function(e) {
                         e.stopPropagation();
                         if(item.hasClass('read')){
@@ -86,8 +92,7 @@ var Notifications = (function(opts) {
                     if(object.seen == '0'){
                         seen += 1;
                     }
-
-                    list.append(item);
+                    $("#notifications-list").append(item);                    
                 });
 
                 setCount(seen, true);
@@ -97,7 +102,8 @@ var Notifications = (function(opts) {
         });
     };
 
-    elem.find('> a[data-toggle="dropdown"]').on('click', function(e){
+
+    elem.find('> a[data-bs-toggle="dropdown"]').on('click', function(e){        
         if(!$(this).parent().hasClass('show')){
             showList();
         }
@@ -106,6 +112,8 @@ var Notifications = (function(opts) {
     elem.find('.read-all').on('click', function(e){
         e.stopPropagation();
         var link = $(this);
+        console.log(options.readAllUrl);
+        
         $.ajax({
             url: options.readAllUrl,
             type: "GET",
@@ -114,7 +122,6 @@ var Notifications = (function(opts) {
             success: function (data) {
                 markRead(elem.find('.dropdown-item:not(.read)').find('.mark-read'));
                 link.off('click').on('click', function(){ return false; });
-                updateCount();
             }
         });
     });

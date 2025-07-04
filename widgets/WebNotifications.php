@@ -123,11 +123,11 @@ class WebNotifications extends \yii\base\Widget
             return $this->template;
         }
 
-        $html = Html::beginTag('p');
-        $html .= Html::beginTag('button', ['id' => 'js-web-push-subscribe-button', 'disabled' => 'disabled']);
-        $html .= "Subscribe";
+        // $html = Html::beginTag('p');
+        $html = Html::beginTag('button', ['class' => 'btn btn-secondary', 'id' => 'js-web-push-subscribe-button']);
+        $html .= "Suscribirse";
         $html .= Html::endTag('button');
-        $html .= Html::endTag('p');
+        // $html .= Html::endTag('p');
 
         return $html;
     }
@@ -138,10 +138,9 @@ class WebNotifications extends \yii\base\Widget
      */
     public function registerAssets()
     {
+        $js = 'WebNotifications(' . Json::encode($this->getConfig()) . ');';
         $view = $this->getView();
         WebNotificationsAsset::register($view);
-
-        $js = 'WebNotifications(' . Json::encode($this->getConfig()) . ');';
         $view->registerJs($js, View::POS_END);
     }
 

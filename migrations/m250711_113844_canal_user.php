@@ -7,7 +7,7 @@ class m250711_113844_canal_user extends Migration
     // Use up()/down() to run migration code without a transaction.
     public function up()
     {
-        $this->createTable('{{%notifications}}', [
+        $this->createTable('{{%canal_user}}', [
             'id_canal' => $this->primaryKey(),
             'id_user' => $this->int(10)->notNull(),
         ]);
@@ -20,14 +20,7 @@ class m250711_113844_canal_user extends Migration
             'canal_notificacion',
             'id'
         );
-        // add foreign key for table `user`
-        $this->addForeignKey(
-            'canal_user_user_FK',
-            'canal_user',
-            'id_user',
-            'user',
-            'id'
-        );
+        
     }
 
     public function down()

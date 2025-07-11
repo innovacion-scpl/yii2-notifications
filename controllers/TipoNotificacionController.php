@@ -4,14 +4,14 @@ namespace webzop\notifications\controllers;
 
 use Yii;
 use yii\web\NotFoundHttpException;
-use webzop\notifications\model\CanalNotificacion;
-use webzop\notifications\model\CanalNotificacionSearch;
+use webzop\notifications\model\TipoNotificacion;
+use webzop\notifications\model\TipoNotificacionSearch;
 
-class CanalNotificacionController extends \yii\web\Controller
+class TipoNotificacionController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $searchModel = new CanalNotificacionSearch();
+        $searchModel = new TipoNotificacionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index',[
             'searchModel' => $searchModel,
@@ -20,7 +20,7 @@ class CanalNotificacionController extends \yii\web\Controller
     }
 
     public function actionCreate(){
-        $model = new CanalNotificacion();
+        $model = new TipoNotificacion();
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()){
@@ -54,7 +54,7 @@ class CanalNotificacionController extends \yii\web\Controller
     }
 
      /**
-     * Deletes an existing CanalNotificacion model.
+     * Deletes an existing TipoNotificacion model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -68,15 +68,15 @@ class CanalNotificacionController extends \yii\web\Controller
     }
 
      /**
-     * Finds the CanalNotificacion model based on its primary key value.
+     * Finds the TipoNotificacion model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return CanalNotificacion the loaded model
+     * @return TipoNotificacion the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = CanalNotificacion::findOne($id)) !== null) {
+        if (($model = TipoNotificacion::findOne($id)) !== null) {
             return $model;
         }
 

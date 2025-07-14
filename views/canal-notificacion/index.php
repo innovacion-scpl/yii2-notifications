@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\Pjax;
 use yii\grid\GridView;
 use kartik\dialog\Dialog;
 /* @var $this yii\web\View */
@@ -22,7 +21,6 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
         <?= Html::a('Cargar nuevo', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
@@ -31,14 +29,16 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'nombre',
-
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}'
+                'template' => '{update} {delete} {asociate-notify}',
+                'buttons' => [
+                    'asociate-notify' => function($url,$model){
+                        return Html::a('<span class="fas fa-mail-bulk"></span>', $url);  
+                    }
+                ]
             ],
         ],
     ]); ?>
-
-    <?php Pjax::end(); ?>
 
 </div>

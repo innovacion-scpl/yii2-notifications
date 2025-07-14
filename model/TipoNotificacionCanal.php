@@ -15,6 +15,7 @@ use Yii;
  */
 class TipoNotificacionCanal extends \yii\db\ActiveRecord
 {
+    
     /**
      * {@inheritdoc}
      */
@@ -30,7 +31,7 @@ class TipoNotificacionCanal extends \yii\db\ActiveRecord
     {
         return [
             [['id_tipo_notificacion', 'id_canal'], 'required'],
-            [['id_tipo_notificacion', 'id_canal'], 'integer'],
+            [['id_tipo_notificacion', 'id_canal', 'es_seleccionable'], 'integer'],
             [['id_tipo_notificacion', 'id_canal'], 'unique', 'targetAttribute' => ['id_tipo_notificacion', 'id_canal']],
             [['id_canal'], 'exist', 'skipOnError' => true, 'targetClass' => CanalNotificacion::className(), 'targetAttribute' => ['id_canal' => 'id']],
             [['id_tipo_notificacion'], 'exist', 'skipOnError' => true, 'targetClass' => TipoNotificacion::className(), 'targetAttribute' => ['id_tipo_notificacion' => 'id']],
@@ -45,6 +46,7 @@ class TipoNotificacionCanal extends \yii\db\ActiveRecord
         return [
             'id_tipo_notificacion' => 'Id Tipo Notificacion',
             'id_canal' => 'Id Canal',
+            'es_seleccionable' => 'Es seleccionable'
         ];
     }
 
@@ -66,5 +68,21 @@ class TipoNotificacionCanal extends \yii\db\ActiveRecord
     public function getTipoNotificacion()
     {
         return $this->hasOne(TipoNotificacion::className(), ['id' => 'id_tipo_notificacion']);
+    }
+
+    public static function buscar($idCanal, $idNotificacion){
+        $asociaciones = TipoNotificacionCanal::find()
+                                            ->where(['id_canal' => $idCanal])
+                                            ->andWhere(['id_tipo_notificacion' => $idNotificacion])
+                                            ->one();
+        return $asociaciones;
+    }
+
+    public static function eliminar($idCanal, $idNotificacion){
+        $asociaciones = TipoNotificacionCanal::find()
+                                                ->where(['id_canal' => $idCanal])
+                                                ->andWhere(['id_tipo_notificacion' => $idNotificacion])
+                                                ->delete();
+        return $asociaciones == 1;
     }
 }

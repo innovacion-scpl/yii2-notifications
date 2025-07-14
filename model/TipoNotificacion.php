@@ -16,6 +16,9 @@ use Yii;
  */
 class TipoNotificacion extends \yii\db\ActiveRecord
 {
+    public $check_notify;
+    public $check_es_seleccionable;
+
     /**
      * {@inheritdoc}
      */
@@ -66,5 +69,10 @@ class TipoNotificacion extends \yii\db\ActiveRecord
     public function getCanals()
     {
         return $this->hasMany(CanalNotificacion::className(), ['id' => 'id_canal'])->viaTable('tipo_notificacion_canal', ['id_tipo_notificacion' => 'id']);
+    }
+
+    public static function searchAll(){
+        $notificaciones = TipoNotificacion::find()->all();
+        return $notificaciones;
     }
 }

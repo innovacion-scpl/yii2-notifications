@@ -21,6 +21,7 @@
         "php": ">=7.4.0",
         "yiisoft/yii2": "~2.0.14",
         "minishlink/web-push": "^7.0",
+        "yidas/yii2-fontawesome": "^5.0",
         "kartik-v/yii2-dialog": "@dev",
         "kartik-v/yii2-grid": "@dev"
     },

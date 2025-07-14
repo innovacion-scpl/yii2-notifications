@@ -2,10 +2,16 @@
 
 namespace webzop\notifications\controllers;
 
+use Exception;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
+use webzop\notifications\model\TipoNotificacion;
 use webzop\notifications\model\CanalNotificacion;
+use webzop\notifications\model\TipoNotificacionSearch;
 use webzop\notifications\model\CanalNotificacionSearch;
+use webzop\notifications\model\TipoNotificacionCanal;
+use yii\helpers\VarDumper;
 
 class CanalNotificacionController extends \yii\web\Controller
 {
@@ -65,6 +71,62 @@ class CanalNotificacionController extends \yii\web\Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionAsociateNotify($id){
+        $model = $this->findModel($id);
+        /** Debo buscar todas las notificaciones, más las que ya estén asociadas */
+
+        // $notificaciones = ArrayHelper::map(TipoNotificacion::searchAll(), 'id', 'subject');
+        $searchModelTipoNotificaciones = new TipoNotificacionSearch();
+        $dataProviderTipoNotificaciones = $searchModelTipoNotificaciones->search(Yii::$app->request->queryParams);
+
+        return $this->render('asociar-notificaciones', [
+            'modelCanal' => $model,
+            'searchModelTipoNotificaciones' => $searchModelTipoNotificaciones,
+            'dataProviderTipoNotificaciones' => $dataProviderTipoNotificaciones
+        ]);
+    }
+
+    public function actionAsociarNotificacion(){
+        $id_canal = Yii::$app->request->post('id_canal');
+        $id_notificacion = Yii::$app->request->post('id_notificacion');
+        $checked = Yii::$app->request->post('check');
+        $tipoNotificacionCanal = TipoNotificacionCanal::buscar($id_canal, $id_notificacion);
+        try {
+            if (isset($tipoNotificacionCanal->id_tipo_notificacion) && !$checked) {
+                // eliminar asociación
+                $cambioEfectuado = TipoNotificacionCanal::eliminar($id_canal, $id_notificacion);
+            }else{
+                // agregar asociación
+                $model = new TipoNotificacionCanal();
+                $model->id_canal = $id_canal;
+                $model->id_tipo_notificacion = $id_notificacion;
+                $cambioEfectuado = $model->save();
+            }
+            return $cambioEfectuado;           
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function actionMarcarEsSeleccionable(){
+        $id_canal = Yii::$app->request->post('id_canal');
+        $id_notificacion = Yii::$app->request->post('id_notificacion');
+        $checked = Yii::$app->request->post('check');
+        $tipoNotificacionCanal = TipoNotificacionCanal::buscar($id_canal, $id_notificacion);
+        try {
+            if (($tipoNotificacionCanal->es_seleccionable == 1) && $checked) {
+                $tipoNotificacionCanal->es_seleccionable = 0;
+                $cambioEfectuado = $tipoNotificacionCanal->save();
+            }else{
+                $tipoNotificacionCanal->es_seleccionable = 1;
+                $cambioEfectuado = $tipoNotificacionCanal->save();
+            }
+            return $cambioEfectuado;           
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
      /**

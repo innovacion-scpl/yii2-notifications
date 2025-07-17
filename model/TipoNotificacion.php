@@ -18,6 +18,8 @@ class TipoNotificacion extends \yii\db\ActiveRecord
 {
     public $check_notify;
     public $check_es_seleccionable;
+    public $check_notify_email;
+    public $check_notify_system;
 
     /**
      * {@inheritdoc}

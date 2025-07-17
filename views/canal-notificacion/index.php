@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\Pjax;
 use yii\grid\GridView;
 use kartik\dialog\Dialog;
 /* @var $this yii\web\View */

@@ -29,10 +29,11 @@ class CanalUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_canal', 'id_user'], 'required'],
-            [['id_canal', 'id_user'], 'integer'],
+            [['id_canal', 'id_user', 'id_tipo_notificacion'], 'required'],
+            [['id_canal', 'id_user', 'id_tipo_notificacion'], 'integer'],
             [['id_canal', 'id_user'], 'unique', 'targetAttribute' => ['id_canal', 'id_user']],
             [['id_canal'], 'exist', 'skipOnError' => true, 'targetClass' => CanalNotificacion::className(), 'targetAttribute' => ['id_canal' => 'id']],
+            [['id_tipo_notificacion'], 'exist', 'skipOnError' => true, 'targetClass' => TipoNotificacion::className(), 'targetAttribute' => ['id_tipo_notificacion' => 'id']],
         ];
     }
 
@@ -54,6 +55,42 @@ class CanalUser extends \yii\db\ActiveRecord
      */
     public function getCanal()
     {
-        return $this->hasOne(CanalNotificacion::className(), ['id' => 'id_canal']);
+        return $this->hasOne(CanalNotificacion::class, ['id' => 'id_canal']);
+    }
+
+    /**
+     * Gets query for [[Canal]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTipoNotificacion()
+    {
+        return $this->hasOne(TipoNotificacion::class, ['id' => 'id_tipo_notificacion']);
+    }
+
+    public static function  buscar($id_canal, $id_tipo_notificacion){
+        $asociacion = CanalUser::find()
+                                ->where(['id_canal' => $id_canal])
+                                ->andWhere(['id_tipo_notificacion' => $id_tipo_notificacion])
+                                ->one();
+        return $asociacion;
+    }
+    
+    public static function buscarPorUsuario($id_canal, $id_tipo_notificacion, $id_user){
+        $asociacion = CanalUser::find()
+                                ->where(['id_canal' => $id_canal])
+                                ->andWhere(['id_tipo_notificacion' => $id_tipo_notificacion])
+                                ->andWhere(['id_user' => $id_user])
+                                ->one();
+        return $asociacion;
+    }
+
+    public static function eliminar($id_canal, $id_tipo_notificacion, $id_user){
+        $asociacion = TipoNotificacionCanal::find()
+                                                ->where(['id_canal' => $id_canal])
+                                                ->andWhere(['id_tipo_notificacion' => $id_tipo_notificacion])
+                                                ->andWhere(['id_user' => $id_user])
+                                                ->delete();
+        return $asociacion == 1;
     }
 }

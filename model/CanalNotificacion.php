@@ -17,6 +17,9 @@ use Yii;
  */
 class CanalNotificacion extends \yii\db\ActiveRecord
 {
+    const CANAL_EMAIL = 1;
+    CONST CANAL_SISTEMA = 2;
+
     /**
      * {@inheritdoc}
      */
@@ -75,5 +78,10 @@ class CanalNotificacion extends \yii\db\ActiveRecord
     public function getTipoNotificacions()
     {
         return $this->hasMany(TipoNotificacion::className(), ['id' => 'id_tipo_notificacion'])->viaTable('tipo_notificacion_canal', ['id_canal' => 'id']);
+    }
+
+    public static function buscar($id_canal){
+        $canal = CanalNotificacion::findOne(['id' => $id_canal]);
+        return $canal;
     }
 }

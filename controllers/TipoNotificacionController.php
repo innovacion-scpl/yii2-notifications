@@ -67,6 +67,10 @@ class TipoNotificacionController extends \yii\web\Controller
         return $this->redirect(['index']);
     }
 
+    public function actionMisNotificaciones(){
+        
+    }
+    
      /**
      * Finds the TipoNotificacion model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

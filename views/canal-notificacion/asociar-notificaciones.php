@@ -6,6 +6,7 @@ use kartik\grid\GridView;
 use kartik\dialog\Dialog;
 use webzop\notifications\AdminAsset;
 use webzop\notifications\model\TipoNotificacionCanal;
+use yii\helpers\VarDumper;
 
 AdminAsset::register($this);
 /* @var $this yii\web\View */

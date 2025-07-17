@@ -44,7 +44,9 @@ class CanalUserController extends \yii\web\Controller
                 $model->id_user = $id_user;
                 $cambioEfectuado = $model->save();
             }
-            return $cambioEfectuado;           
+            if (!$cambioEfectuado) {
+                throw new Exception("");
+            }          
         } catch (Exception $e) {
             return false;
         }

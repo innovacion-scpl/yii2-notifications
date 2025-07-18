@@ -33,8 +33,8 @@ class TipoNotificacionCanal extends \yii\db\ActiveRecord
             [['id_tipo_notificacion', 'id_canal'], 'required'],
             [['id_tipo_notificacion', 'id_canal', 'es_seleccionable'], 'integer'],
             [['id_tipo_notificacion', 'id_canal'], 'unique', 'targetAttribute' => ['id_tipo_notificacion', 'id_canal']],
-            [['id_canal'], 'exist', 'skipOnError' => true, 'targetClass' => CanalNotificacion::className(), 'targetAttribute' => ['id_canal' => 'id']],
-            [['id_tipo_notificacion'], 'exist', 'skipOnError' => true, 'targetClass' => TipoNotificacion::className(), 'targetAttribute' => ['id_tipo_notificacion' => 'id']],
+            [['id_canal'], 'exist', 'skipOnError' => true, 'targetClass' => CanalNotificacion::class, 'targetAttribute' => ['id_canal' => 'id']],
+            [['id_tipo_notificacion'], 'exist', 'skipOnError' => true, 'targetClass' => TipoNotificacion::class, 'targetAttribute' => ['id_tipo_notificacion' => 'id']],
         ];
     }
 
@@ -57,7 +57,7 @@ class TipoNotificacionCanal extends \yii\db\ActiveRecord
      */
     public function getCanal()
     {
-        return $this->hasOne(CanalNotificacion::className(), ['id' => 'id_canal']);
+        return $this->hasOne(CanalNotificacion::class, ['id' => 'id_canal']);
     }
 
     /**
@@ -67,22 +67,20 @@ class TipoNotificacionCanal extends \yii\db\ActiveRecord
      */
     public function getTipoNotificacion()
     {
-        return $this->hasOne(TipoNotificacion::className(), ['id' => 'id_tipo_notificacion']);
+        return $this->hasOne(TipoNotificacion::class, ['id' => 'id_tipo_notificacion']);
     }
 
-    public static function buscar($idCanal, $idNotificacion){
+    public static function buscar($id_canal, $id_tipo_notificacion){
         $asociaciones = TipoNotificacionCanal::find()
-                                            ->where(['id_canal' => $idCanal])
-                                            ->andWhere(['id_tipo_notificacion' => $idNotificacion])
+                                            ->where(['id_canal' => $id_canal])
+                                            ->andWhere(['id_tipo_notificacion' => $id_tipo_notificacion])
                                             ->one();
         return $asociaciones;
     }
 
-    public static function eliminar($idCanal, $idNotificacion){
-        $asociaciones = TipoNotificacionCanal::find()
-                                                ->where(['id_canal' => $idCanal])
-                                                ->andWhere(['id_tipo_notificacion' => $idNotificacion])
-                                                ->delete();
-        return $asociaciones == 1;
+    public static function eliminar($id_canal, $id_tipo_notificacion){
+        $asociacion = TipoNotificacionCanal::buscar($id_canal, $id_tipo_notificacion);
+        $del = $asociacion->delete();
+        return $del == 1;
     }
 }

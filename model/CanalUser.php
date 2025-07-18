@@ -3,6 +3,7 @@
 namespace webzop\notifications\model;
 
 use Yii;
+use common\models\User;
 
 /**
  * This is the model class for table "canal_user".
@@ -31,9 +32,10 @@ class CanalUser extends \yii\db\ActiveRecord
         return [
             [['id_canal', 'id_user', 'id_tipo_notificacion'], 'required'],
             [['id_canal', 'id_user', 'id_tipo_notificacion'], 'integer'],
-            [['id_canal', 'id_user'], 'unique', 'targetAttribute' => ['id_canal', 'id_user']],
-            [['id_canal'], 'exist', 'skipOnError' => true, 'targetClass' => CanalNotificacion::className(), 'targetAttribute' => ['id_canal' => 'id']],
-            [['id_tipo_notificacion'], 'exist', 'skipOnError' => true, 'targetClass' => TipoNotificacion::className(), 'targetAttribute' => ['id_tipo_notificacion' => 'id']],
+            [['id_canal', 'id_user', 'id_tipo_notificacion'], 'unique', 'targetAttribute' => ['id_canal', 'id_user', 'id_tipo_notificacion']],
+            [['id_canal'], 'exist', 'skipOnError' => true, 'targetClass' => CanalNotificacion::class, 'targetAttribute' => ['id_canal' => 'id']],
+            [['id_tipo_notificacion'], 'exist', 'skipOnError' => true, 'targetClass' => TipoNotificacion::class, 'targetAttribute' => ['id_tipo_notificacion' => 'id']],
+            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
     }
 
@@ -45,6 +47,7 @@ class CanalUser extends \yii\db\ActiveRecord
         return [
             'id_canal' => 'Id Canal',
             'id_user' => 'Id User',
+            'id_tipo_notificacion' => 'Id Tipo Notificacion',
         ];
     }
 
@@ -68,6 +71,16 @@ class CanalUser extends \yii\db\ActiveRecord
         return $this->hasOne(TipoNotificacion::class, ['id' => 'id_tipo_notificacion']);
     }
 
+     /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'id_user']);
+    }
+
     public static function  buscar($id_canal, $id_tipo_notificacion){
         $asociacion = CanalUser::find()
                                 ->where(['id_canal' => $id_canal])
@@ -86,11 +99,7 @@ class CanalUser extends \yii\db\ActiveRecord
     }
 
     public static function eliminar($id_canal, $id_tipo_notificacion, $id_user){
-        $asociacion = TipoNotificacionCanal::find()
-                                                ->where(['id_canal' => $id_canal])
-                                                ->andWhere(['id_tipo_notificacion' => $id_tipo_notificacion])
-                                                ->andWhere(['id_user' => $id_user])
-                                                ->delete();
-        return $asociacion == 1;
+        $asociacion = CanalUser::buscarPorUsuario($id_canal, $id_tipo_notificacion, $id_user);
+        return $asociacion->delete() == 1;
     }
 }

@@ -16,6 +16,10 @@ use common\models\User;
  */
 class CanalUser extends \yii\db\ActiveRecord
 {
+
+    const CANAL_EMAIL = 1;
+    const CANAL_SISTEMA = 2;
+
     /**
      * {@inheritdoc}
      */
@@ -101,5 +105,13 @@ class CanalUser extends \yii\db\ActiveRecord
     public static function eliminar($id_canal, $id_tipo_notificacion, $id_user){
         $asociacion = CanalUser::buscarPorUsuario($id_canal, $id_tipo_notificacion, $id_user);
         return $asociacion->delete() == 1;
+    }
+
+    public static function buscarPorNotificacion($id_user, $id_tipo_notificacion){
+        $asociaciones = CanalUser::find()
+                                ->where(['id_tipo_notificacion' => $id_tipo_notificacion])
+                                ->andWhere(['id_user' => $id_user])
+                                ->all();
+        return $asociaciones;
     }
 }

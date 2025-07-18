@@ -77,4 +77,10 @@ class TipoNotificacion extends \yii\db\ActiveRecord
         $notificaciones = TipoNotificacion::find()->all();
         return $notificaciones;
     }
+
+    public static function buscar($id){
+        $notificacion = TipoNotificacion::findOne(['id' => $id]);
+        return $notificacion;
+
+    }
 }

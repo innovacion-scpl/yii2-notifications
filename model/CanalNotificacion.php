@@ -17,8 +17,8 @@ use Yii;
  */
 class CanalNotificacion extends \yii\db\ActiveRecord
 {
-    const CANAL_EMAIL = 1;
-    CONST CANAL_SISTEMA = 2;
+    const ID_CANAL_EMAIL = 1;
+    CONST ID_CANAL_SISTEMA = 2;
 
     /**
      * {@inheritdoc}

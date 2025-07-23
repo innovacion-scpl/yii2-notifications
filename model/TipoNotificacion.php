@@ -10,7 +10,10 @@ use Yii;
  * @property int $id
  * @property string $subject
  * @property string $content
+ * @property string|null $view
  *
+ * @property CanalUser[] $canalUsers
+ * @property ModeloAtributoNotificacion[] $modeloAtributoNotificacions
  * @property TipoNotificacionCanal[] $tipoNotificacionCanals
  * @property CanalNotificacion[] $canals
  */
@@ -36,7 +39,7 @@ class TipoNotificacion extends \yii\db\ActiveRecord
     {
         return [
             [['subject', 'content'], 'required'],
-            [['subject'], 'string', 'max' => 100],
+            [['subject', 'view'], 'string', 'max' => 100],
             [['content'], 'string', 'max' => 300],
         ];
     }
@@ -50,7 +53,18 @@ class TipoNotificacion extends \yii\db\ActiveRecord
             'id' => 'ID',
             'subject' => 'Subject',
             'content' => 'Content',
+            'view' => 'View'
         ];
+    }
+
+    /**
+     * Gets query for [[CanalUsers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCanalUsers()
+    {
+        return $this->hasMany(CanalUser::class, ['id_tipo_notificacion' => 'id']);
     }
 
     /**
@@ -60,7 +74,7 @@ class TipoNotificacion extends \yii\db\ActiveRecord
      */
     public function getTipoNotificacionCanals()
     {
-        return $this->hasMany(TipoNotificacionCanal::className(), ['id_tipo_notificacion' => 'id']);
+        return $this->hasMany(TipoNotificacionCanal::class, ['id_tipo_notificacion' => 'id']);
     }
 
     /**
@@ -70,7 +84,7 @@ class TipoNotificacion extends \yii\db\ActiveRecord
      */
     public function getCanals()
     {
-        return $this->hasMany(CanalNotificacion::className(), ['id' => 'id_canal'])->viaTable('tipo_notificacion_canal', ['id_tipo_notificacion' => 'id']);
+        return $this->hasMany(CanalNotificacion::class, ['id' => 'id_canal'])->viaTable('tipo_notificacion_canal', ['id_tipo_notificacion' => 'id']);
     }
 
     public static function searchAll(){

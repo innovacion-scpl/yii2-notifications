@@ -8,14 +8,15 @@ use webzop\notifications\model\CanalUser;
 use webzop\notifications\model\CanalNotificacion;
 use webzop\notifications\model\TipoNotificacionCanal;
 use webzop\notifications\model\TipoNotificacionSearch;
+use yii\helpers\VarDumper;
 
 class CanalUserController extends \yii\web\Controller
 {
     public function actionIndex(){
         $searchModel = new TipoNotificacionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $modelCanalEmail = CanalNotificacion::buscar(CanalNotificacion::CANAL_EMAIL);
-        $modelCanalSystem  = CanalNotificacion::buscar(CanalNotificacion::CANAL_SISTEMA);
+        $modelCanalEmail = CanalNotificacion::buscar(CanalNotificacion::ID_CANAL_EMAIL);
+        $modelCanalSystem  = CanalNotificacion::buscar(CanalNotificacion::ID_CANAL_SISTEMA);
 
         return $this->render('index',[
             'searchModel' => $searchModel,
@@ -29,11 +30,11 @@ class CanalUserController extends \yii\web\Controller
         $id_canal = Yii::$app->request->post('id_canal');
         $id_notificacion = Yii::$app->request->post('id_notificacion');
         $checked = Yii::$app->request->post('check');
-        $id_user = Yii::$app->user->identity->id;
+            $id_user = Yii::$app->user->identity->id;
 
         $canalUserNotificacion = CanalUser::buscarPorUsuario($id_canal, $id_notificacion, $id_user);
         try {
-            if (isset($canalUserNotificacion->id_tipo_notificacion) && !$checked) {
+            if (isset($canalUserNotificacion->id_tipo_notificacion) && $checked == 'false') {
                 // eliminar asociación
                 $cambioEfectuado = CanalUser::eliminar($id_canal, $id_notificacion, $id_user);
             }else{
@@ -45,8 +46,9 @@ class CanalUserController extends \yii\web\Controller
                 $cambioEfectuado = $model->save();
             }
             if (!$cambioEfectuado) {
-                throw new Exception("");
-            }          
+                throw new Exception("No se pudo efectuar el cambio.");
+            }
+            return true;
         } catch (Exception $e) {
             return false;
         }

@@ -32,7 +32,7 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
             ['class' => 'yii\grid\SerialColumn'],
             'subject',
             'content',
-
+            'view',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}'

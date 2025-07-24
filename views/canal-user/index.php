@@ -5,6 +5,8 @@ use yii\widgets\Pjax;
 use kartik\grid\GridView;
 use kartik\dialog\Dialog;
 use webzop\notifications\model\CanalUser;
+use webzop\notifications\model\TipoNotificacionCanal;
+use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CentroCostoSearch */
@@ -36,35 +38,40 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
             [
                 'class' => '\kartik\grid\CheckboxColumn',
                 'attribute' => 'check_notify_email',
-                'content'=> function($model) use($modelCanalEmail){
+                'content'=> function($model) use($modelCanalEmail, $user_id){
                     /** buscar la asociación de canal y notificación */
-                    $notificacionCanal = CanalUser::buscar($modelCanalEmail->id, $model->id);
+                    $notificacionCanal = CanalUser::buscarPorUsuario($modelCanalEmail->id, $model->id, $user_id);
+                    $tipoNotCanal = TipoNotificacionCanal::buscar($modelCanalEmail->id, $model->id);
                     return html::checkbox('check_notify',false,[
                             'value' => $model->id,
                             'checked' => !empty($notificacionCanal) ? true : false,
                             'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalEmail->id.', '.$model->id.', "notifications/canal-user/add")',
                             'class' => 'check',
+                            'disabled' => isset($tipoNotCanal->es_seleccionable) ? true : false
                         ]
                     ); 
                 },
-                'header' => 'Asignar notificación',
+                'header' => 'Notificar vía Email',
                 'rowHighlight' => false
             ],
             [
                 'class' => '\kartik\grid\CheckboxColumn',
                 'attribute' => 'check_notify_system',
-                'content'=> function($model) use($modelCanalSystem){
+                'content'=> function($model) use($modelCanalSystem, $user_id){
                     /** buscar la asociación de canal y notificación */
-                    $notificacionCanal = CanalUser::buscar($modelCanalSystem->id, $model->id);
+                    $notificacionCanal = CanalUser::buscarPorUsuario($modelCanalSystem->id, $model->id, $user_id);
+                    $tipoNotCanal = TipoNotificacionCanal::buscar($modelCanalSystem->id, $model->id);
                     return html::checkbox('check_notify',false,[
                             'value' => $model->id,
                             'checked' => !empty($notificacionCanal) ? true : false,
                             'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalSystem->id.', '.$model->id.', "notifications/canal-user/add")',
                             'class' => 'check',
+                            'disabled' => isset($tipoNotCanal->es_seleccionable) ? true : false
+
                         ]
                     ); 
                 },
-                'header' => 'Asignar notificación',
+                'header' => 'Notificar por sistema',
                 'rowHighlight' => false
             ],
 

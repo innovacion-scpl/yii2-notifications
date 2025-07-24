@@ -12,7 +12,7 @@ use yii\helpers\VarDumper;
 
 class CanalUserController extends \yii\web\Controller
 {
-    public function actionIndex(){
+    public function actionIndex($id = null){
         $searchModel = new TipoNotificacionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $modelCanalEmail = CanalNotificacion::buscar(CanalNotificacion::ID_CANAL_EMAIL);
@@ -22,7 +22,8 @@ class CanalUserController extends \yii\web\Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'modelCanalEmail' => $modelCanalEmail,
-            'modelCanalSystem' => $modelCanalSystem
+            'modelCanalSystem' => $modelCanalSystem,
+            'user_id' => isset($id) ? $id : Yii::$app->user->identity->id
         ]);
     }
 

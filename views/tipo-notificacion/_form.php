@@ -15,6 +15,7 @@ use yii\bootstrap5\ActiveForm;
         <div class="card-body w-50">
             <?= $form->field($model, 'subject')->textInput(['maxlength' => true])->label('Asunto') ?>
             <?= $form->field($model, 'content')->textInput(['maxlength' => true])->label('Contenido') ?>
+            <?= $form->field($model, 'view')->textInput(['maxlength' => true, 'value' => $model->isNewRecord ? 'notificacion' : $model->view])->label('Vista') ?>
         
             <div class="form-group">
                 <?= Html::a('Cancelar', ['index'], ['class' => 'btn btn-danger']) ?>

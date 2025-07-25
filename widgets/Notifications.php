@@ -93,13 +93,13 @@ class Notifications extends \yii\base\Widget
                 $header = Html::tag('p','Notificaciones', ['class' => 'encabezado-text']);
                 $html .= Html::tag('div', $header, ['class' => 'nav-header']);
                 $html .= Html::begintag('div', ['id' => 'notifications-list']);
-                    $html .= Html::begintag('div', ['class' => 'dropdown-item']);
+                    $html .= Html::begintag('div', ['class' => 'dropdown-item', 'style' => 'padding-left: 0px;']);
                         $html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
                         $html .= Html::tag('div', Html::tag('span', Yii::t('modules/notifications', 'No tiene notificaciones'), ['style' => 'display: none;']), ['class' => 'empty-row']);
                     $html .= Html::endTag('div');
                 $html .= Html::endTag('div');
 
-                $footer = Html::a(Yii::t('modules/notifications', 'Ver todo'), ['/notifications/default/index']);
+                $footer = Html::a(Yii::t('modules/notifications', 'Ver todo'), ['/notifications/default/index'], ['style' => 'text-decoration:none;']);
                 $html .= Html::tag('div', $footer, ['class' => 'nav-footer']);
             $html .= Html::endTag('ul');
         $html .= Html::endTag('div');

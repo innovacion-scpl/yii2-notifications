@@ -2,6 +2,7 @@
 
 namespace webzop\notifications\controllers;
 
+use common\models\User;
 use Exception;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -10,6 +11,7 @@ use webzop\notifications\model\TipoNotificacion;
 use webzop\notifications\model\CanalNotificacion;
 use webzop\notifications\model\TipoNotificacionSearch;
 use webzop\notifications\model\CanalNotificacionSearch;
+use webzop\notifications\model\CanalUser;
 use webzop\notifications\model\TipoNotificacionCanal;
 use yii\helpers\VarDumper;
 
@@ -94,8 +96,8 @@ class CanalNotificacionController extends \yii\web\Controller
         $checked = Yii::$app->request->post('check');
         $tipoNotificacionCanal = TipoNotificacionCanal::buscar($id_canal, $id_notificacion);
         try {
-            if (isset($tipoNotificacionCanal->id_tipo_notificacion) && !$checked) {
-                // eliminar asociación
+            if (isset($tipoNotificacionCanal->id_tipo_notificacion) && $checked) {
+                // eliminar asociación, se deberá eliminar de todos los usuarios que lo tienen asignado
                 $cambioEfectuado = TipoNotificacionCanal::eliminar($id_canal, $id_notificacion);
             }else{
                 // agregar asociación
@@ -103,9 +105,11 @@ class CanalNotificacionController extends \yii\web\Controller
                 $model->id_canal = $id_canal;
                 $model->id_tipo_notificacion = $id_notificacion;
                 $cambioEfectuado = $model->save();
+                Yii::error(VarDumper::dumpAsString($cambioEfectuado));
             }
             return $cambioEfectuado;           
         } catch (Exception $e) {
+            Yii::error(VarDumper::dumpAsString($e));
             return false;
         }
     }
@@ -119,9 +123,18 @@ class CanalNotificacionController extends \yii\web\Controller
             if (($tipoNotificacionCanal->es_seleccionable == 1) && $checked) {
                 $tipoNotificacionCanal->es_seleccionable = 0;
                 $cambioEfectuado = $tipoNotificacionCanal->save();
+                /** buscar todos los usuarios y quitarle la asociación */
             }else{
                 $tipoNotificacionCanal->es_seleccionable = 1;
                 $cambioEfectuado = $tipoNotificacionCanal->save();
+                /** buscar todos los usuarios y agregarles esta asociación */
+                $id_users = ArrayHelper::map(User::findAllActive(), 'id', 'id');
+                $canal_user_model = new CanalUser();
+                foreach ($id_users as $index => $id) {
+                    if (!$canal_user_model->guardar($id, $id_canal, $id_notificacion)) {
+                        throw new Exception("Error al asociar la notificación al usuario");                        
+                    }
+                }
             }
             return $cambioEfectuado;           
         } catch (Exception $e) {

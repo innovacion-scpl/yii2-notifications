@@ -6,7 +6,6 @@ use Yii;
 use webzop\notifications\Channel;
 use webzop\notifications\model\Notifications;
 use webzop\notifications\Notification;
-use yii\helpers\VarDumper;
 
 class ScreenChannel extends Channel
 {
@@ -32,10 +31,6 @@ class ScreenChannel extends Channel
         //     'user_id' => $notification->userId,
         //     'created_at' => $currTime,
         // ])->execute();
-        Yii::error(VarDumper::dumpAsString($modelNotification));
-
-        Yii::error(VarDumper::dumpAsString($res));
-
     }
 
 }

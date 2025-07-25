@@ -14,7 +14,7 @@ class CanalUserController extends \yii\web\Controller
 {
     public function actionIndex($id = null){
         $searchModel = new TipoNotificacionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, true);
         $modelCanalEmail = CanalNotificacion::buscar(CanalNotificacion::ID_CANAL_EMAIL);
         $modelCanalSystem  = CanalNotificacion::buscar(CanalNotificacion::ID_CANAL_SISTEMA);
 

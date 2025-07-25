@@ -3,6 +3,7 @@
 namespace webzop\notifications\model;
 
 use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "tipo_notificacion_canal".
@@ -79,8 +80,11 @@ class TipoNotificacionCanal extends \yii\db\ActiveRecord
     }
 
     public static function eliminar($id_canal, $id_tipo_notificacion){
+        // eliminar asociación, se deberá eliminar de todos los usuarios que lo tienen asignado
+        $eliminados = CanalUser::eliminarNotificacionCanal($id_canal, $id_tipo_notificacion);
         $asociacion = TipoNotificacionCanal::buscar($id_canal, $id_tipo_notificacion);
         $del = $asociacion->delete();
+
         return $del == 1;
     }
 }

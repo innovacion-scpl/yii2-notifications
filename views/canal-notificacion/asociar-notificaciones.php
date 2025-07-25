@@ -73,18 +73,9 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                                 ]
                             ); 
                         },
-                        'header' => 'Es seleccionable',
+                        'header' => 'Inhabilitar para usuarios',
                         'rowHighlight' => false
                     ],
-                    // [
-                    //     'class' => 'yii\grid\ActionColumn',
-                    //     'template' => '{update} {delete} {asociate-notify}',
-                    //     'buttons' => [
-                    //         'asociate-notify' => function($url,$model){
-                    //             return Html::a('<span class="fas fa-mail-bulk"></span>', $url);  
-                    //         }
-                    //     ]
-                    // ],
                 ],
             ]); 
         ?>

@@ -3,7 +3,9 @@
 namespace webzop\notifications\model;
 
 use Yii;
+use Exception;
 use common\models\User;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "canal_user".
@@ -107,11 +109,39 @@ class CanalUser extends \yii\db\ActiveRecord
         return $asociacion->delete() == 1;
     }
 
+    public static function eliminarNotificacionCanal($id_canal, $id_tipo_notificacion){
+        $del = CanalUser::deleteAll(['id_canal' => $id_canal, 'id_tipo_notificacion' => $id_tipo_notificacion]);
+        // return ($del == false) ? false : true;
+    }
+
     public static function buscarPorNotificacion($id_user, $id_tipo_notificacion){
         $asociaciones = CanalUser::find()
                                 ->where(['id_tipo_notificacion' => $id_tipo_notificacion])
                                 ->andWhere(['id_user' => $id_user])
                                 ->all();
         return $asociaciones;
+    }
+
+    public function guardar($id_user, $id_canal, $id_tipo_notificacion){
+        $transaccion = Yii::$app->db->beginTransaction();
+        try {
+            /** Verificar si ya no esta creada la asociación */
+            if (!isset(CanalUser::buscarPorUsuario($id_canal, $id_tipo_notificacion, $id_user)->id_canal)) {
+                $canalUser = new CanalUser();
+                $canalUser->id_user = $id_user;
+                $canalUser->id_canal = $id_canal;
+                $canalUser->id_tipo_notificacion = $id_tipo_notificacion;
+                if($canalUser->save()) {
+                    $transaccion->commit();
+                    return true;
+                }
+                $transaccion->rollBack();
+                return false;
+            }
+            return true;
+        } catch (Exception $e) {
+            $transaccion->rollBack();
+            return false;
+        }
     }
 }

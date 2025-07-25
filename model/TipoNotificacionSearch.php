@@ -38,9 +38,14 @@ class TipoNotificacionSearch extends TipoNotificacion
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $mis_notificaciones = false)
     {
         $query = TipoNotificacion::find();
+
+        if ($mis_notificaciones) {
+            /** buscar las notificaciones que están asociadas a un canal */
+            $query->innerJoin('tipo_notificacion_canal', 'tipo_notificacion_canal.id_tipo_notificacion = tipo_notificacion.id');
+        }
 
         // add conditions that should always apply here
 

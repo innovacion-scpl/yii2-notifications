@@ -12,22 +12,17 @@ use yii\helpers\VarDumper;
 /* @var $searchModel backend\models\CentroCostoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tipos de notificación';
+$this->title = 'Mis notificaciones';
 $this->params['breadcrumbs'][] = $this->title;
 
 echo Dialog::widget(['overrideYiiConfirm' => true]);
 
 ?>
-<div class="tipo-notificacion-index">
+<div class="mis-notificaciones-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Cargar nuevo', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -74,7 +69,6 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                 'header' => 'Notificar por sistema',
                 'rowHighlight' => false
             ],
-
         ],
     ]); ?>
 

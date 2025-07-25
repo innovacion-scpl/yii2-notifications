@@ -1,7 +1,4 @@
-function checkAsociarAusentismo(check, canal_id, notificacion_id, url){
-    // var id = element.value;
-    console.log(check.checked);
-    
+function checkAsociarAusentismo(check, canal_id, notificacion_id, url){    
     $.ajax({
         type: 'POST',
         url: location.origin + "/rrhh/"+ url,

@@ -40,10 +40,18 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                     $notificacionCanal = CanalUser::buscarPorUsuario($modelCanalEmail->id, $model->id, $user_id);
                     $tipoNotCanal = TipoNotificacionCanal::buscar($modelCanalEmail->id, $model->id);
                     if (isset($tipoNotCanal->es_seleccionable)) {
-                        $info = '     <i class="fas fa-info ms-1 text-primary" 
-                                        data-bd-toggle="tooltip"
-                                        data-bs-placement="top"
-                                        data-bs-tittle="Esta"></i>';
+                        $info =  Html::tag('span',
+                                            '<i class="fas fa-info-circle"></i>',
+                                            [
+                                                'class' => 'ps-2',
+                                                'style' => 'color:#3584e4',
+                                                'data-bs-toggle' => 'tooltip',
+                                                'title' => 'La notificación es obligatoria.',
+                                                'data-bs-html' => 'true'
+                                            ]
+                                        );
+
+                      
                         $disabled = true;
                     }else{
                         $disabled = false;

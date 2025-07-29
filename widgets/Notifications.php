@@ -69,7 +69,7 @@ class Notifications extends \yii\base\Widget
     {
         $html  = Html::beginTag('div', $this->options);
             /** ICONO DE CAMPANA */
-            $html .= Html::beginTag('a', ['href' => '#', 'class' => 'nav-link dropdown-toggle', 'data-bs-toggle' => 'dropdown', 'role' => 'button',  'aria-expanded' =>"false"]);
+            $html .= Html::beginTag('a', ['href' => '#', 'class' => 'nav-link ', 'data-bs-toggle' => 'dropdown', 'role' => 'button',  'aria-expanded' =>"false"]);
                 $html .= Html::tag('span', '', ['class' => 'fas fa-bell']);
                 /** CONTADOR DE NOTIFICACIONES */
                 $count = self::getCountUnread();

@@ -6,7 +6,9 @@ use kartik\grid\GridView;
 use kartik\dialog\Dialog;
 use webzop\notifications\model\CanalUser;
 use webzop\notifications\model\TipoNotificacionCanal;
-use yii\helpers\VarDumper;
+use backend\assets\AppAsset;
+
+AppAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CentroCostoSearch */
@@ -37,14 +39,24 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                     /** buscar la asociación de canal y notificación */
                     $notificacionCanal = CanalUser::buscarPorUsuario($modelCanalEmail->id, $model->id, $user_id);
                     $tipoNotCanal = TipoNotificacionCanal::buscar($modelCanalEmail->id, $model->id);
+                    if (isset($tipoNotCanal->es_seleccionable)) {
+                        $info = '     <i class="fas fa-info ms-1 text-primary" 
+                                        data-bd-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-bs-tittle="Esta"></i>';
+                        $disabled = true;
+                    }else{
+                        $disabled = false;
+                        $info = "";
+                    }
                     return html::checkbox('check_notify',false,[
                             'value' => $model->id,
                             'checked' => !empty($notificacionCanal) ? true : false,
                             'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalEmail->id.', '.$model->id.', "notifications/canal-user/add")',
                             'class' => 'check',
-                            'disabled' => isset($tipoNotCanal->es_seleccionable) ? true : false
+                            'disabled' => $disabled
                         ]
-                    ); 
+                    ).$info; 
                 },
                 'header' => 'Notificar vía Email',
                 'rowHighlight' => false

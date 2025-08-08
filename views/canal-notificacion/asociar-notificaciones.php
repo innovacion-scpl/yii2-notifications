@@ -27,6 +27,11 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
         <?= Html::a('Cargar nuevo', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <div class="alert alert-info" role="alert">
+        Al seleccionar  la opción de <b>inhabilitar para usuarios</b> usted le esta asignando la notificación a todos los agentes y no podrán deshabilitarse
+        dicha notificación.
+    </div>
+
     <?php Pjax::begin(['id' => 'pjax-grid']); ?>
 
         <?= GridView::widget([
@@ -34,7 +39,9 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                 'filterModel' => $searchModelTipoNotificaciones,
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
-                    'subject',
+                    [   'label' => 'Asunto',
+                        'attribute' => 'subject',
+                    ],
                     [
                         'class' => '\kartik\grid\CheckboxColumn',
                         'attribute' => 'check_notify',

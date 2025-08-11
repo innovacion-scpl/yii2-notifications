@@ -89,16 +89,17 @@ class Notifications extends \yii\base\Widget
 
             /** EMPIEZAN LAS NOTIFICACIONES */
             $html .= Html::begintag('ul', ['class' => 'dropdown-menu']);
-                // $header = Html::a('Marcar todo como leído', '#', ['class' => 'read-all pull-right text-decoration-none']);
-                $header = Html::tag('p','Notificaciones', ['class' => 'encabezado-text']);
+                $header = Html::beginTag('p', ['class' => 'encabezado-text']);
+                    $header .= 'Notificaciones';
+                    $header .= Html::a('Marcar todo como leído', Url::toRoute(['/notifications/default/read-all']), ['class' => 'btn btn-primary btn-sm read-all float-end text-decoration-none']);
+                $header .= Html::endTag('p');
                 $html .= Html::tag('div', $header, ['class' => 'nav-header']);
                 $html .= Html::begintag('div', ['id' => 'notifications-list']);
                     $html .= Html::begintag('div', ['class' => 'dropdown-item', 'style' => 'padding-left: 0px;']);
                         $html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
-                        $html .= Html::tag('div', Html::tag('span', Yii::t('modules/notifications', 'No tiene notificaciones'), ['style' => 'display: none;']), ['class' => 'empty-row']);
                     $html .= Html::endTag('div');
                 $html .= Html::endTag('div');
-
+                    $html .= Html::tag('div', Html::tag('p', "No hay notificaciones disponibles."), ['class' => 'empty-row', "hidden" => true, 'id'=>'sinNotificaciones']);
                 $footer = Html::a(Yii::t('modules/notifications', 'Ver todo'), ['/notifications/default/index'], ['style' => 'text-decoration:none;']);
                 $html .= Html::tag('div', $footer, ['class' => 'nav-footer']);
             $html .= Html::endTag('ul');

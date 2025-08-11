@@ -55,7 +55,7 @@ var Notifications = (function(opts) {
                 var seen = 0;
 
                 if($.isEmptyObject(data.list)){
-                    list.find('.empty-row span').show();
+                    $('#sinNotificaciones').prop("hidden", false);
                 }
 
                 $.each(data.list, function (index, object) {

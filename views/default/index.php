@@ -2,48 +2,56 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
+use backend\assets\AppAsset;
 
-$this->title = Yii::t('modules/notifications', 'Notifications');
+AppAsset::register($this);
 
-header('Content-Type: application/javascript'); // Asegúrate de que el tipo MIME sea correcto
-header('Service-Worker-Allowed: /'); // Define el alcance deseado
-// ... Aquí va el contenido de tu service-worker.js
-echo 'self.addEventListener("install", function(event) { console.log("SW instalado!"); });';
+$this->title = "Notificaciones";
 
 ?>
 
-<div class="page-header">
-    <div class="buttons">
-        <a class="btn btn-danger" href="<?= Url::toRoute(['/notifications/default/delete-all']) ?>"><?= Yii::t('modules/notifications', 'Delete all'); ?></a>
-        <a class="btn btn-secondary" href="<?= Url::toRoute(['/notifications/default/read-all']) ?>"><?= Yii::t('modules/notifications', 'Mark all as read'); ?></a>
-    </div>
 
-    <h1>
-        <span class="icon icon-bell"></span>
-        <a href="<?= Url::to(['/notifications/manage']) ?>"><?= Yii::t('modules/notifications', 'Notifications') ?></a>
-    </h1>
+<h1>
+    <span class="fas fa-bullhorn"></span>
+    <a href="<?= Url::to(['/notifications/canal-user/index']) ?>" style="text-decoration:none; color:black;">Mis notificaciones</a>
+</h1>
+
+<div class="buttons pb-4">
+    <!-- <a class="btn btn-danger" href="<?= Url::toRoute(['/notifications/default/delete-all']) ?>"><?= Yii::t('modules/notifications', 'Delete all'); ?></a> -->
+    <a class="btn btn-primary" href="<?= Url::toRoute(['/notifications/default/read-all']) ?>">Marcar todo como leído</a>
 </div>
 
-<div class="page-content">
-
-    <ul id="notifications-items">
-        <?php if($notifications): ?>
-        <?php foreach($notifications as $notif): ?>
-        <li class="notification-item<?php if($notif['read']): ?> read<?php endif; ?>" data-id="<?= $notif['id']; ?>" data-key="<?= $notif['key']; ?>">
-            <a href="<?= $notif['url'] ?>">
-                <span class="icon"></span>
-                <span class="message"><?= Html::encode($notif['message']); ?></span>
-            </a>
-            <small class="timeago"><?= $notif['timeago']; ?></small>
-            <span class="mark-read" data-toggle="tooltip" title="<?php if($notif['read']): ?><?php Yii::t('modules/notifications', 'Read') ?><?php else: ?><?= Yii::t('modules/notifications', 'Mark as read') ?><?php endif; ?>"></span>
-
-        </li>
+<?php if($notifications) { ?>
+    <div class="card">
+        <?php foreach($notifications as $notif):
+                if ($notif['read']) { ?>
+                    <!-- Notificaciones leídas -->
+                    <div class="card-body notification-item-view read">
+                        <a href="" class="read" data-id="<?= $notif['id']?>" data-key="<?= $notif['key']?>" style="text-decoration:none; color:black;">
+                            <?= Html::encode($notif['message'])?>
+                        </a>
+                        <small class="timeago"><?= $notif['timeago']; ?></small>
+                        <span class="mark-read" data-toggle="tooltip" title="Leído"></span>
+                    </div>                    
+                <?php }else{ ?>
+                    <!-- Notificaciones que no fueron leídas -->
+                        <div class="card-body notification-item-view">
+                            <a href="<?= Url::toRoute(['/notifications/default/read', 'id' => $notif['id']]) ?>" data-id="<?= $notif['id']?>" data-key="<?= $notif['key']?>" style="text-decoration:none; color:black;">
+                                <?= Html::encode($notif['message'])?>
+                            </a>
+                            <small class="timeago"><?= $notif['timeago']; ?></small>
+                            <span class="mark-read" data-toggle="tooltip" title="Marcar como leído"></span>
+                        </div>     
+                <?php    
+                    }
+                ?>
         <?php endforeach; ?>
-        <?php else: ?>
-            <li class="empty-row"><?= Yii::t('modules/notifications', 'There are no notifications to show') ?></li>
-        <?php endif; ?>
-    </ul>
-
-    <?= LinkPager::widget(['pagination' => $pagination]); ?>
-
 </div>
+    <?php
+        }else{ ?>
+                <p class="empty-row"><i>No hay notificaciones para mostrar.</i></p>
+    <?php    
+        }
+    ?>
+
+<?= LinkPager::widget(['pagination' => $pagination]); ?>

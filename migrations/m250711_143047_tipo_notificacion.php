@@ -22,6 +22,7 @@ class m250711_143047_tipo_notificacion extends Migration
                 'id'=> $this->primaryKey(11),
                 'subject'=> $this->string(100)->notNull(),
                 'content'=> $this->string(300)->notNull(),
+                'view'=> $this->string(300)->notNull(),
             ],$tableOptions
         );
 

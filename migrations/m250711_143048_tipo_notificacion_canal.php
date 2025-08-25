@@ -21,7 +21,7 @@ class m250711_143048_tipo_notificacion_canal extends Migration
             [
                 'id_tipo_notificacion'=> $this->integer(11)->notNull(),
                 'id_canal'=> $this->integer(11)->notNull(),
-                'es_seleccionable'=> $this->tinyInteger(1)->notNull()->defaultValue(1),
+                'es_seleccionable'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
             ],$tableOptions
         );
         $this->createIndex('tipo_notificacion_canal_canal_notificacion_FK','{{%tipo_notificacion_canal}}',['id_canal'],false);

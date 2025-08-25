@@ -23,10 +23,6 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Cargar nuevo', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <div class="alert alert-info" role="alert">
         Al seleccionar  la opción de <b>inhabilitar para usuarios</b> usted le esta asignando la notificación a todos los agentes y no podrán deshabilitarse
         dicha notificación.

@@ -1,97 +1,57 @@
 <?php
-
+use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\widgets\Pjax;
-use kartik\grid\GridView;
-use kartik\dialog\Dialog;
-use webzop\notifications\model\CanalUser;
-use webzop\notifications\model\TipoNotificacionCanal;
+use yii\widgets\LinkPager;
 use backend\assets\AppAsset;
 
 AppAsset::register($this);
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\CentroCostoSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Mis notificaciones';
-$this->params['breadcrumbs'][] = $this->title;
-
-echo Dialog::widget(['overrideYiiConfirm' => true]);
+$this->title = "Notificaciones";
 
 ?>
-<div class="mis-notificaciones-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php Pjax::begin(); ?>
+<h1>
+    <span class="fas fa-bullhorn"></span>
+    <a href="<?= Url::to(['/notifications/canal-user/index']) ?>" style="text-decoration:none; color:black;">Mis notificaciones</a>
+</h1>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'subject',
-            [
-                'class' => '\kartik\grid\CheckboxColumn',
-                'attribute' => 'check_notify_email',
-                'content'=> function($model) use($modelCanalEmail, $user_id){
-                    /** buscar la asociación de canal y notificación */
-                    $notificacionCanal = CanalUser::buscarPorUsuario($modelCanalEmail->id, $model->id, $user_id);
-                    $tipoNotCanal = TipoNotificacionCanal::buscar($modelCanalEmail->id, $model->id);
-                    if (isset($tipoNotCanal->es_seleccionable) && $tipoNotCanal->es_seleccionable == 1) {
-                        $info =  Html::tag('span',
-                                            '<i class="fas fa-info-circle"></i>',
-                                            [
-                                                'class' => 'ps-2',
-                                                'style' => 'color:#3584e4',
-                                                'data-bs-toggle' => 'tooltip',
-                                                'title' => 'La notificación es obligatoria.',
-                                                'data-bs-html' => 'true'
-                                            ]
-                                        );
-
-                      
-                        $disabled = true;
-                    }else{
-                        $disabled = false;
-                        $info = "";
-                    }
-                    return html::checkbox('check_notify',false,[
-                            'value' => $model->id,
-                            'checked' => !empty($notificacionCanal) ? true : false,
-                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalEmail->id.', '.$model->id.', "notifications/canal-user/add")',
-                            'class' => 'check',
-                            'disabled' => $disabled
-                        ]
-                    ).$info; 
-                },
-                'header' => 'Notificar vía Email',
-                'rowHighlight' => false
-            ],
-            [
-                'class' => '\kartik\grid\CheckboxColumn',
-                'attribute' => 'check_notify_system',
-                'content'=> function($model) use($modelCanalSystem, $user_id){
-                    /** buscar la asociación de canal y notificación */
-                    $notificacionCanal = CanalUser::buscarPorUsuario($modelCanalSystem->id, $model->id, $user_id);
-                    $tipoNotCanal = TipoNotificacionCanal::buscar($modelCanalSystem->id, $model->id);
-                    return html::checkbox('check_notify',false,[
-                            'value' => $model->id,
-                            'checked' => !empty($notificacionCanal) ? true : false,
-                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalSystem->id.', '.$model->id.', "notifications/canal-user/add")',
-                            'class' => 'check',
-                            'disabled' => isset($tipoNotCanal->es_seleccionable) ? true : false
-
-                        ]
-                    ); 
-                },
-                'header' => 'Notificar por sistema',
-                'rowHighlight' => false
-            ],
-        ],
-    ]); ?>
-
-    <?php Pjax::end(); ?>
-
+<div class="buttons pb-4">
+    <!-- <a class="btn btn-danger" href="<?= Url::toRoute(['/notifications/default/delete-all']) ?>"><?= Yii::t('modules/notifications', 'Delete all'); ?></a> -->
+    <a class="btn btn-primary" href="<?= Url::toRoute(['/notifications/default/read-all']) ?>">Marcar todo como leído</a>
 </div>
+
+<?php if($notifications) { ?>
+    <div class="card">
+        <?php foreach($notifications as $notif):
+                if ($notif['read']) { ?>
+                    <!-- Notificaciones leídas -->
+                    <div class="card-body notification-item-view read">
+                        <a href="" class="read" data-id="<?= $notif['id']?>" data-key="<?= $notif['key']?>" style="text-decoration:none; color:black;">
+                            <?= Html::encode($notif['message'])?>
+                        </a>
+                        <small class="timeago"><?= $notif['timeago']; ?></small>
+                        <span class="mark-read" data-toggle="tooltip" title="Leído"></span>
+                    </div>                    
+                <?php }else{ ?>
+                    <!-- Notificaciones que no fueron leídas -->
+                        <div class="card-body notification-item-view">
+                            <a href="<?= Url::toRoute(['/notifications/default/read', 'id' => $notif['id']]) ?>" data-id="<?= $notif['id']?>" data-key="<?= $notif['key']?>" style="text-decoration:none; color:black;">
+                                <?= Html::encode($notif['message'])?>
+                            </a>
+                            <small class="timeago"><?= $notif['timeago']; ?></small>
+                            <span class="mark-read" data-toggle="tooltip" title="Marcar como leído"></span>
+                        </div>     
+                <?php    
+                    }
+                ?>
+        <?php endforeach; ?>
+</div>
+    <?php
+        }else{ ?>
+                <p class="empty-row"><i>No hay notificaciones para mostrar.</i></p>
+    <?php    
+        }
+    ?>
+
+<?= LinkPager::widget(['pagination' => $pagination]); ?>

@@ -7,8 +7,9 @@ use kartik\dialog\Dialog;
 use webzop\notifications\model\CanalUser;
 use webzop\notifications\model\TipoNotificacionCanal;
 use backend\assets\AppAsset;
-use yii\helpers\VarDumper;
+use webzop\notifications\AdminAsset;
 
+AdminAsset::register($this);
 AppAsset::register($this);
 
 /* @var $this yii\web\View */

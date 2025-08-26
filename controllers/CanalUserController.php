@@ -6,9 +6,8 @@ use Yii;
 use Exception;
 use webzop\notifications\model\CanalUser;
 use webzop\notifications\model\CanalNotificacion;
-use webzop\notifications\model\TipoNotificacionCanal;
 use webzop\notifications\model\TipoNotificacionSearch;
-use yii\helpers\VarDumper;
+use common\models\User;
 
 class CanalUserController extends \yii\web\Controller
 {
@@ -17,13 +16,22 @@ class CanalUserController extends \yii\web\Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, true);
         $modelCanalEmail = CanalNotificacion::buscar(CanalNotificacion::ID_CANAL_EMAIL);
         $modelCanalSystem  = CanalNotificacion::buscar(CanalNotificacion::ID_CANAL_SISTEMA);
+        $title = "";
+
+        if (isset($id)) {
+            $user = User::findOne($id);
+            $title = "Notificaciones de ". $user->nombre." ".$user->apellido;
+        }else{
+            $title = "Mis notificaciones";
+        }
 
         return $this->render('index',[
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'modelCanalEmail' => $modelCanalEmail,
             'modelCanalSystem' => $modelCanalSystem,
-            'user_id' => isset($id) ? $id : Yii::$app->user->identity->id
+            'user_id' => isset($id) ? $id : Yii::$app->user->identity->id,
+            'title' => $title
         ]);
     }
 

@@ -16,7 +16,7 @@ AppAsset::register($this);
 /* @var $searchModel backend\models\CentroCostoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Mis notificaciones';
+$this->title = $title;
 $this->params['breadcrumbs'][] = $this->title;
 
 echo Dialog::widget(['overrideYiiConfirm' => true]);
@@ -33,7 +33,10 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'subject',
+            [
+                'attribute' => 'subject',
+                'label' => "Notificación"
+            ],
             [
                 'class' => '\kartik\grid\CheckboxColumn',
                 'attribute' => 'check_notify_email',

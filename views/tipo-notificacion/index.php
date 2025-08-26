@@ -30,8 +30,14 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'subject',
-            'content',
+            [
+                'attribute' => 'subject',
+                'label' => "Notificación (asunto)"
+            ],
+            [
+                'attribute' => 'content',
+                'label' => "Contenido"
+            ],
             'view',
             [
                 'class' => 'yii\grid\ActionColumn',

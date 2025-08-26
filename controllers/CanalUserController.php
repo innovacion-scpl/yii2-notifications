@@ -31,7 +31,7 @@ class CanalUserController extends \yii\web\Controller
         $id_canal = Yii::$app->request->post('id_canal');
         $id_notificacion = Yii::$app->request->post('id_notificacion');
         $checked = Yii::$app->request->post('check');
-            $id_user = Yii::$app->user->identity->id;
+        $id_user = Yii::$app->request->post('user_id');
 
         $canalUserNotificacion = CanalUser::buscarPorUsuario($id_canal, $id_notificacion, $id_user);
         try {

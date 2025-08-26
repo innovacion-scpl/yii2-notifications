@@ -61,7 +61,7 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                     return html::checkbox('check_notify',false,[
                             'value' => $model->id,
                             'checked' => !empty($notificacionCanal) ? true : false,
-                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalEmail->id.', '.$model->id.', "notifications/canal-user/add")',
+                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalEmail->id.', '.$model->id.', "notifications/canal-user/add", '.$user_id.')',
                             'class' => 'check',
                             'disabled' => $disabled
                         ]
@@ -97,7 +97,7 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                     return html::checkbox('check_notify',false,[
                             'value' => $model->id,
                             'checked' => !empty($notificacionCanal) ? true : false,
-                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalSystem->id.', '.$model->id.', "notifications/canal-user/add")',
+                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalSystem->id.', '.$model->id.', "notifications/canal-user/add", '.$user_id.')',
                             'class' => 'check',
                             'disabled' => $disabled
 

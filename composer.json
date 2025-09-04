@@ -23,7 +23,9 @@
         "minishlink/web-push": "^7.0",
         "yidas/yii2-fontawesome": "^5.0",
         "kartik-v/yii2-dialog": "@dev",
-        "kartik-v/yii2-grid": "@dev"
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-editors": "dev-master"
+
     },
     "autoload": {
         "psr-4": {

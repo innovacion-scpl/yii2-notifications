@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use kartik\editors\Summernote;
 use yii\bootstrap5\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -14,7 +15,11 @@ use yii\bootstrap5\ActiveForm;
     <div class="card">
         <div class="card-body w-50">
             <?= $form->field($model, 'subject')->textInput(['maxlength' => true])->label('Asunto') ?>
-            <?= $form->field($model, 'content')->textInput(['maxlength' => true])->label('Contenido') ?>
+            <?= $form->field($model, 'content')->widget(Summernote::class, [
+                'useKrajeePresets' => true,
+                // other widget settings
+            ])->label("Contenido");?>
+        
             <?= $form->field($model, 'view')->textInput(['maxlength' => true, 'value' => $model->isNewRecord ? 'notificacion' : $model->view])->label('Vista') ?>
         
             <div class="form-group">

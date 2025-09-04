@@ -54,7 +54,7 @@ class DefaultController extends Controller
             ->andWhere(['or', 'user_id = 0', 'user_id = :user_id'], [':user_id' => $userId])
             ->andWhere(['read' => 0])
             ->orderBy(['id' => SORT_DESC])
-            ->limit(10)
+            ->limit(6)
             ->all();
             
         $notifs = $this->prepareNotifications($list);

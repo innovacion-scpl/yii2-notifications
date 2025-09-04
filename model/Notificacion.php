@@ -58,9 +58,15 @@ class Notificacion extends \yii\db\ActiveRecord
     }
 
     private function toScreen($channel, $user, $contenido, $id_tipo_notificacion){
-        
-        $sendNot = ScreenNotficacion::create($id_tipo_notificacion, ['user' => $user, 'contenido' => $contenido, 'userId' => $user->id]);
-        $env = $sendNot->send($channel);
+        if (!Notificacion::notificacionEnviada($user->id, $id_tipo_notificacion)) {
+            $sendNot = ScreenNotficacion::create($id_tipo_notificacion, ['user' => $user, 'contenido' => $contenido, 'userId' => $user->id]);
+            $sendNot->send($channel);            
+        }
+    }
 
+    /** $key se refiere al id de tipo notificación */
+    private static function notificacionEnviada($user_id, $key){
+        $notificacion = Notifications::findOne(['user_id' => $user_id, 'key' => $key]);
+        return isset($notificacion->id);
     }
 }

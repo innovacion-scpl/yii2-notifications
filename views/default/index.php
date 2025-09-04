@@ -5,9 +5,7 @@ use yii\widgets\LinkPager;
 use backend\assets\AppAsset;
 
 AppAsset::register($this);
-
 $this->title = "Notificaciones";
-
 ?>
 
 
@@ -46,7 +44,20 @@ $this->title = "Notificaciones";
                     }
                 ?>
         <?php endforeach; ?>
-</div>
+    </div>
+    <?= LinkPager::widget([
+            'pagination' => $pagination,
+            // Optional: Customize labels and CSS classes for Bootstrap 5 styling
+            'firstPageLabel' => 'Primero',
+            'lastPageLabel' => 'Último',
+            'prevPageLabel' => '&laquo;',
+            'nextPageLabel' => '&raquo;',
+            'options' => ['class' => 'pagination justify-content-center'], // Bootstrap 5 pagination classes
+            'linkContainerOptions' => ['class' => 'page-item'],
+            'linkOptions' => ['class' => 'page-link'],
+            'disabledListItemSubTagOptions' => ['tag' => 'a', 'class' => 'page-link'], // For disabled links
+        ]);
+    ?>
     <?php
         }else{ ?>
                 <p class="empty-row"><i>No hay notificaciones para mostrar.</i></p>

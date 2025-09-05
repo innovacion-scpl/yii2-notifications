@@ -48,8 +48,8 @@ $this->title = "Notificaciones";
     <?= LinkPager::widget([
             'pagination' => $pagination,
             // Optional: Customize labels and CSS classes for Bootstrap 5 styling
-            'firstPageLabel' => 'Primero',
-            'lastPageLabel' => 'Último',
+            'firstPageLabel' => 'Primera',
+            'lastPageLabel' => 'Última',
             'prevPageLabel' => '&laquo;',
             'nextPageLabel' => '&raquo;',
             'options' => ['class' => 'pagination justify-content-center'], // Bootstrap 5 pagination classes

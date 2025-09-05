@@ -1,5 +1,5 @@
 function checkAsociarAusentismo(check, canal_id, notificacion_id, url, user_id){
-    if (!check.checked) {
+    if (!check.checked && user_id == undefined) {
         krajeeDialog.confirm('Sí quita la notificación del sistema, ningún usuario recibirá la notificación ¿Esta seguro?', function(out){
             if(out) {
                 asignarDesasignarNoti(check, canal_id, notificacion_id, url, user_id);
@@ -8,8 +8,6 @@ function checkAsociarAusentismo(check, canal_id, notificacion_id, url, user_id){
     }else{
         asignarDesasignarNoti(check, canal_id, notificacion_id, url, user_id);
     }
-
-
 }
 
 function asignarDesasignarNoti(check, canal_id, notificacion_id, url, user_id){

@@ -105,11 +105,18 @@ class CanalNotificacionController extends \yii\web\Controller
                 $model->id_canal = $id_canal;
                 $model->id_tipo_notificacion = $id_notificacion;
                 $cambioEfectuado = $model->save();
-                Yii::error(VarDumper::dumpAsString($cambioEfectuado));
+                /** buscar todos los agentes activos del sistema y que no sean vacantes */
+                $id_users = ArrayHelper::map(User::findAllActive(), 'id', 'id');
+                $canalUser = new CanalUser();
+                foreach ($id_users as $index => $id_user) {
+                    $cambioEfectuado = $canalUser->guardar($id_user, $id_canal, $id_notificacion);
+                    if (!$cambioEfectuado) {
+                        throw new Exception("No se pudo asignar la notificación.");
+                    }
+                }
             }
             return $cambioEfectuado;           
         } catch (Exception $e) {
-            Yii::error(VarDumper::dumpAsString($e));
             return false;
         }
     }

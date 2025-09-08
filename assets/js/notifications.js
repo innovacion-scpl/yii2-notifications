@@ -1,3 +1,9 @@
+let page = 2;
+let loading = false;
+$( document ).ready(function() {
+    loading = false;
+});
+
 /**
  * notifications plugin
  */
@@ -175,4 +181,39 @@ var Notifications = (function(opts) {
     // Fire the initial poll
     startPoll();
 
+    function loadMoreData() {
+        if (loading) return;
+        loading = true;
+        
+        $.ajax({
+          url: location.origin + '/rrhh/notifications/default/list-ajax', 
+          type: 'GET',
+          data: {
+            page: page,
+          },
+          success: function(data) {
+            $.each(data.list, function (index, object) {
+                item = renderRow(object);
+                $("#notifications-list").append(item);            
+            });
+    
+            page++;
+            loading = false;
+          },
+          error: function() {
+            loading = false;
+            alert('Error loading data.');
+          }
+        });
+    }
+    
+    // Scroll event for infinite scrolling
+    $('#notifications-list').on('scroll', function() {
+        var heightContent = $(this).innerHeight();
+        var scrollPix = $(this).scrollTop();
+        var alturaTotal = $(this)[0].scrollHeight;
+        if (scrollPix + heightContent >= alturaTotal) {
+            loadMoreData();
+        }
+    });
 });

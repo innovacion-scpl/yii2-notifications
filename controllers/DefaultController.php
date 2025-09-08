@@ -61,6 +61,23 @@ class DefaultController extends Controller
         $this->ajaxResponse(['list' => $notifs]);
     }
 
+    public function actionListAjax($page)
+    {
+        $limit = ($page - 1) * 6;
+        $userId = Yii::$app->getUser()->getId();
+        $list = (new Query())
+            ->from('{{%notifications}}')
+            ->andWhere(['or', 'user_id = 0', 'user_id = :user_id'], [':user_id' => $userId])
+            ->andWhere(['read' => 0])
+            ->orderBy(['id' => SORT_DESC])
+            ->offset($limit)
+            ->limit(6)
+            ->all();
+            
+        $notifs = $this->prepareNotifications($list);
+        $this->ajaxResponse(['list' => $notifs]);
+    }
+
     public function actionCount()
     {
         $count = Notifications::getCountUnseen();

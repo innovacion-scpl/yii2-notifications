@@ -13,7 +13,6 @@ use webzop\notifications\NotificationsAsset;
 
 class Notifications extends \yii\base\Widget
 {
-
     public $options = ['class' => 'nav-item dropdown nav-notifications'];
 
     /**
@@ -144,10 +143,10 @@ class Notifications extends \yii\base\Widget
     public static function getCountUnread(){
         $userId = Yii::$app->getUser()->getId();
         $count = (new Query())
-            ->from('{{%notifications}}')
-            ->andWhere(['or', 'user_id = 0', 'user_id = :user_id'], [':user_id' => $userId])
-            ->andWhere(['read' => false])
-            ->count();
+                ->from('{{%notifications}}')
+                ->andWhere(['or', 'user_id = 0', 'user_id = :user_id'], [':user_id' => $userId])
+                ->andWhere(['read' => false])
+                ->count();
         return $count;
     }
 }

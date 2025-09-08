@@ -7,7 +7,6 @@ use Exception;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
-use webzop\notifications\model\TipoNotificacion;
 use webzop\notifications\model\CanalNotificacion;
 use webzop\notifications\model\TipoNotificacionSearch;
 use webzop\notifications\model\CanalNotificacionSearch;

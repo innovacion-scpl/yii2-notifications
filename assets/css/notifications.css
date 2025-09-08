@@ -144,3 +144,7 @@
 .notification-item-view.read:hover .mark-read {
     background-color: #bcbcbc;
 }
+.scrollable-dropdown{
+    max-height: 500px;
+    overflow-x: auto;
+}

@@ -16,7 +16,7 @@ class ScreenChannel extends Channel
         $currTime = time();
         
         $modelNotification = new Notifications();
-        $modelNotification->class = strtolower(substr($className, strrpos($className, '\\')+1, -12));
+        $modelNotification->class = 'screen';
         $modelNotification->key = $notification->key;
         $modelNotification->message = $notification->getTitle();
         $modelNotification->route = serialize($notification->getRoute());

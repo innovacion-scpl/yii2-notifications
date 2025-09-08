@@ -111,7 +111,6 @@ class CanalUser extends \yii\db\ActiveRecord
 
     public static function eliminarNotificacionCanal($id_canal, $id_tipo_notificacion){
         $del = CanalUser::deleteAll(['id_canal' => $id_canal, 'id_tipo_notificacion' => $id_tipo_notificacion]);
-        // return ($del == false) ? false : true;
     }
 
     public static function buscarPorNotificacion($id_user, $id_tipo_notificacion){

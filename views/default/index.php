@@ -8,7 +8,6 @@ AppAsset::register($this);
 $this->title = "Notificaciones";
 ?>
 
-
 <h1>
     <span class="fas fa-bullhorn"></span>
     <a href="<?= Url::to(['/notifications/canal-user/index']) ?>" style="text-decoration:none; color:black;">Mis notificaciones</a>
@@ -20,13 +19,13 @@ $this->title = "Notificaciones";
 </div>
 
 <?php if($notifications) { ?>
-    <div class="card">
-        <?php foreach($notifications as $notif):
+    <div class="card mb-3">
+    <?php foreach($notifications as $notif):
                 if ($notif['read']) { ?>
                     <!-- Notificaciones leídas -->
                     <div class="card-body notification-item-view read">
                         <a href="" class="read" data-id="<?= $notif['id']?>" data-key="<?= $notif['key']?>" style="text-decoration:none; color:black;">
-                            <?= Html::encode($notif['message'])?>
+                            <?= Html::decode($notif['message'])?>
                         </a>
                         <small class="timeago"><?= $notif['timeago']; ?></small>
                         <span class="mark-read" data-toggle="tooltip" title="Leído"></span>
@@ -35,13 +34,13 @@ $this->title = "Notificaciones";
                     <!-- Notificaciones que no fueron leídas -->
                         <div class="card-body notification-item-view">
                             <a href="<?= Url::toRoute(['/notifications/default/read', 'id' => $notif['id']]) ?>" data-id="<?= $notif['id']?>" data-key="<?= $notif['key']?>" style="text-decoration:none; color:black;">
-                                <?= Html::encode($notif['message'])?>
+                                <?= Html::decode($notif['message'])?>
                             </a>
                             <small class="timeago"><?= $notif['timeago']; ?></small>
                             <span class="mark-read" data-toggle="tooltip" title="Marcar como leído"></span>
                         </div>     
                 <?php    
-                    }
+                    } 
                 ?>
         <?php endforeach; ?>
     </div>
@@ -56,13 +55,10 @@ $this->title = "Notificaciones";
             'linkContainerOptions' => ['class' => 'page-item'],
             'linkOptions' => ['class' => 'page-link'],
             'disabledListItemSubTagOptions' => ['tag' => 'a', 'class' => 'page-link'], // For disabled links
-        ]);
-    ?>
-    <?php
-        }else{ ?>
-                <p class="empty-row"><i>No hay notificaciones para mostrar.</i></p>
+        ]); ?>
+<?php }else{ ?>
+            <p class="empty-row"><i>No hay notificaciones para mostrar.</i></p>
     <?php    
         }
     ?>
 
-<?= LinkPager::widget(['pagination' => $pagination]); ?>

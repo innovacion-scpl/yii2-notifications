@@ -93,7 +93,7 @@ class Notifications extends \yii\base\Widget
                     $header .= Html::a('Marcar todo como leído', Url::toRoute(['/notifications/default/read-all']), ['class' => 'btn btn-primary btn-sm read-all float-end text-decoration-none']);
                 $header .= Html::endTag('p');
                 $html .= Html::tag('div', $header, ['class' => 'nav-header']);
-                $html .= Html::begintag('div', ['id' => 'notifications-list']);
+                $html .= Html::begintag('div', ['id' => 'notifications-list', 'class' => 'notifications-list scrollable-dropdown']);
                     $html .= Html::begintag('div', ['class' => 'dropdown-item', 'style' => 'padding-left: 0px;']);
                         $html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
                     $html .= Html::endTag('div');
@@ -126,7 +126,6 @@ class Notifications extends \yii\base\Widget
         $view = $this->getView();
 
         NotificationsAsset::register($view);
-
         $view->registerJs($js);
     }
 
@@ -143,10 +142,10 @@ class Notifications extends \yii\base\Widget
     public static function getCountUnread(){
         $userId = Yii::$app->getUser()->getId();
         $count = (new Query())
-                ->from('{{%notifications}}')
-                ->andWhere(['or', 'user_id = 0', 'user_id = :user_id'], [':user_id' => $userId])
-                ->andWhere(['read' => false])
-                ->count();
+            ->from('{{%notifications}}')
+            ->andWhere(['or', 'user_id = 0', 'user_id = :user_id'], [':user_id' => $userId])
+            ->andWhere(['read' => false])
+            ->count();
         return $count;
     }
 }

@@ -28,7 +28,7 @@ class DefaultController extends Controller
             ->andWhere(['or', 'user_id = 0', 'user_id = :user_id'], [':user_id' => $userId]);
 
         $pagination = new Pagination([
-            'pageSize' => 20,
+            'pageSize' => 10,
             'totalCount' => $query->count(),
         ]);
 

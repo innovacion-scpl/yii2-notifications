@@ -47,7 +47,7 @@ var Notifications = (function(opts) {
     };
 
     var showList = function() {
-        
+        page = 2;        
         var list = elem.find('.notifications-list');
         $("#notifications-list").empty();
 
@@ -107,7 +107,6 @@ var Notifications = (function(opts) {
             }
         });
     };
-
 
     elem.find('> a[data-bs-toggle="dropdown"]').on('click', function(e){        
         if(!$(this).parent().hasClass('show')){

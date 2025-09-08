@@ -13,14 +13,24 @@ use yii\bootstrap5\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
     <div class="card">
-        <div class="card-body w-50">
-            <?= $form->field($model, 'subject')->textInput(['maxlength' => true])->label('Asunto') ?>
-            <?= $form->field($model, 'content')->widget(Summernote::class, [
-                'useKrajeePresets' => true,
-                // other widget settings
-            ])->label("Contenido");?>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-8">
+                    <?= $form->field($model, 'subject')->textInput(['maxlength' => true])->label('Asunto') ?>
+                </div>
+                <div class="col-4">
+                    <?= $form->field($model, 'view')->textInput(['maxlength' => true, 'value' => $model->isNewRecord ? 'notificacion' : $model->view])->label('Vista') ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <?= $form->field($model, 'content')->widget(Summernote::class, [
+                        'useKrajeePresets' => true,
+                        // other widget settings
+                    ]);?>
+                </div>
+            </div>
         
-            <?= $form->field($model, 'view')->textInput(['maxlength' => true, 'value' => $model->isNewRecord ? 'notificacion' : $model->view])->label('Vista') ?>
         
             <div class="form-group">
                 <?= Html::a('Cancelar', ['index'], ['class' => 'btn btn-danger']) ?>

@@ -25,7 +25,6 @@
         "kartik-v/yii2-dialog": "@dev",
         "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-editors": "dev-master"
-
     },
     "autoload": {
         "psr-4": {

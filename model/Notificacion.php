@@ -58,10 +58,11 @@ class Notificacion extends \yii\db\ActiveRecord
     }
 
     private function toScreen($channel, $user, $contenido, $id_tipo_notificacion){
-        if (!Notificacion::notificacionEnviada($user->id, $id_tipo_notificacion)) {
+        // Para usar la función, se debe agregar otra condición como la fecha y hora.
+        // if (!Notificacion::notificacionEnviada($user->id, $id_tipo_notificacion)) {
             $sendNot = ScreenNotficacion::create($id_tipo_notificacion, ['user' => $user, 'contenido' => $contenido, 'userId' => $user->id]);
             $sendNot->send($channel);            
-        }
+        // }
     }
 
     /** $key se refiere al id de tipo notificación */

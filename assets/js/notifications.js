@@ -193,7 +193,7 @@ var Notifications = (function(opts) {
           success: function(data) {
             $.each(data.list, function (index, object) {
                 item = renderRow(object);
-                $("#notifications-list").append(item);            
+                $("#list-permission").append(item);            
             });
     
             page++;
@@ -202,12 +202,12 @@ var Notifications = (function(opts) {
           error: function() {
             loading = false;
             alert('Error loading data.');
-          }
+          } 
         });
     }
     
     // Scroll event for infinite scrolling
-    $('#notifications-list').on('scroll', function() {
+    $('#list-permission').on('scroll', function() {
         var heightContent = $(this).innerHeight();
         var scrollPix = $(this).scrollTop();
         var alturaTotal = $(this)[0].scrollHeight;

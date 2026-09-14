@@ -23,14 +23,6 @@ class ScreenChannel extends Channel
         $modelNotification->user_id = $notification->userId;
         $modelNotification->created_at = $currTime;
         $res = $modelNotification->save();
-        // $res = $db->createCommand()->insert('{{%notifications}}', [
-        //     'class' => strtolower(substr($className, strrpos($className, '\\')+1, -12)),
-        //     'key' => $notification->key,
-        //     'message' => (string)$notification->getTitle(),
-        //     'route' => serialize($notification->getRoute()),
-        //     'user_id' => $notification->userId,
-        //     'created_at' => $currTime,
-        // ])->execute();
     }
 
 }

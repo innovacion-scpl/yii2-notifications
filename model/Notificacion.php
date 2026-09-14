@@ -29,7 +29,6 @@ class Notificacion extends \yii\db\ActiveRecord
                     $channel = Yii::$app->getModule('notifications')->getChannel('screen');
                     $this->toScreen($channel, $user, $contenido, $id_tipo_notificacion);
                     break;
-                
                 default:
                     
                     break;
@@ -39,18 +38,20 @@ class Notificacion extends \yii\db\ActiveRecord
     }
 
     private function toEmail($channel, $email_user, $contenido, $id_tipo_notificacion){
-        $tipo_notificacion = TipoNotificacion::buscar($id_tipo_notificacion);
-        $template = $tipo_notificacion->view; // es la vista del email.
-        $message = $channel->mailer->compose($template, [
-            'mensaje' => $contenido,
-        ]);
-
-        Yii::configure($message, $channel->message);
-
-        $message->setTo($email_user);
-        $message->setSubject($tipo_notificacion->subject);
-        $send = $message->send($channel->mailer);
-        return $send;
+        if (!empty($email_user)) {
+            $tipo_notificacion = TipoNotificacion::buscar($id_tipo_notificacion);
+            $template = $tipo_notificacion->view; // es la vista del email.
+            $message = $channel->mailer->compose($template, [
+                'mensaje' => $contenido,
+            ]);
+    
+            Yii::configure($message, $channel->message);
+    
+            $message->setTo($email_user);
+            $message->setSubject($tipo_notificacion->subject);
+            $send = $message->send($channel->mailer);
+            return $send;            
+        }
     }
 
     public static function traducirMensaje($contet, $params){
@@ -61,7 +62,7 @@ class Notificacion extends \yii\db\ActiveRecord
         // Para usar la función, se debe agregar otra condición como la fecha y hora.
         // if (!Notificacion::notificacionEnviada($user->id, $id_tipo_notificacion)) {
             $sendNot = ScreenNotficacion::create($id_tipo_notificacion, ['user' => $user, 'contenido' => $contenido, 'userId' => $user->id]);
-            $sendNot->send($channel);            
+            return $sendNot->send($channel);
         // }
     }
 

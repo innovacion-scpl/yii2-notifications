@@ -8,6 +8,7 @@ use webzop\notifications\model\CanalUser;
 use webzop\notifications\model\CanalNotificacion;
 use webzop\notifications\model\TipoNotificacionSearch;
 use common\models\User;
+use yii\helpers\VarDumper;
 
 class CanalUserController extends \yii\web\Controller
 {
@@ -59,6 +60,7 @@ class CanalUserController extends \yii\web\Controller
             }
             return true;
         } catch (Exception $e) {
+            Yii::error(VarDumper::dumpAsString($e));
             return false;
         }
     }

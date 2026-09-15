@@ -66,47 +66,48 @@ class Notifications extends \yii\base\Widget
         $html  = Html::beginTag('div', $this->options);
         /** ICONO DE CAMPANA */
         $html .= Html::beginTag('a', [
-            'href' => '#',
+            'href' => Url::toRoute(['/notifications/default/index']),
             'class' => 'nav-link',
             'data-bs-toggle' => 'dropdown',
             'data-bs-display' => 'static',
+            // 'data-mobile-url' => Url::toRoute(['/notifications/default/index']),
             'role' => 'button',
             'aria-expanded' => "false",
         ]);
-        $html .= Html::tag('span', '', ['class' => 'fas fa-bell']);
-        /** CONTADOR DE NOTIFICACIONES */
-        $count = self::getCountUnread();
-        $countOptions = array_merge([
-            'tag' => 'span',
-            'data-count' => $count,
-        ], $this->countOptions);
-        Html::addCssClass($countOptions, 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger');
-        if (!$count) {
-            $countOptions['style'] = 'display: none;';
-        }
-        $countTag = ArrayHelper::remove($countOptions, 'tag', 'span');
-        $html .= Html::tag($countTag, $count, $countOptions);
+            $html .= Html::tag('span', '', ['class' => 'fas fa-bell']);
+            /** CONTADOR DE NOTIFICACIONES */
+                $count = self::getCountUnread();
+                $countOptions = array_merge([
+                    'tag' => 'span',
+                    'data-count' => $count,
+                ], $this->countOptions);
+                Html::addCssClass($countOptions, 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger');
+                if (!$count) {
+                    $countOptions['style'] = 'display: none;';
+                }
+                $countTag = ArrayHelper::remove($countOptions, 'tag', 'span');
+            $html .= Html::tag($countTag, $count, $countOptions);
         /******************************/
         $html .= Html::endTag('a');
         /** FINALIZA EL BOTON PARA DESPLEGAR LAS NOTIFICACIONES */
 
         /** EMPIEZAN LAS NOTIFICACIONES */
-        $html .= Html::begintag('ul', ['class' => 'dropdown-menu notif-dropdown']);
+        $html .= Html::begintag('ul', ['class' => 'dropdown-menu dropstart notif-dropdown']);
 
-        $header = Html::tag('span', 'Notificaciones', ['class' => 'notif-dropdown__title']);
-        $header .= Html::a('Marcar todo como leído', Url::toRoute(['/notifications/default/read-all']), ['class' => 'btn btn-primary btn-sm read-all notif-dropdown__mark-all text-decoration-none']);
-        $html .= Html::tag('div', $header, ['class' => 'notif-dropdown__header']);
+            $header = Html::tag('span', 'Notificaciones', ['class' => 'notif-dropdown__title']);
+            $header .= Html::a('Marcar todo como leído', Url::toRoute(['/notifications/default/read-all']), ['class' => 'btn btn-primary btn-sm read-all notif-dropdown__mark-all text-decoration-none']);
+            $html .= Html::tag('div', $header, ['class' => 'notif-dropdown__header']);
 
-        $html .= Html::begintag('div', ['id' => 'notifications-list', 'class' => 'notif-dropdown__body scrollable-dropdown']);
-        $html .= Html::begintag('div', ['class' => 'dropdown-item', 'style' => 'padding-left: 0px;']);
-        $html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
-        $html .= Html::endTag('div');
-        $html .= Html::endTag('div');
+            $html .= Html::begintag('div', ['id' => 'notifications-list', 'class' => 'notif-dropdown__body scrollable-dropdown']);
+                $html .= Html::begintag('div', ['class' => 'dropdown-item', 'style' => 'padding-left: 0px;']);
+                    $html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
+                $html .= Html::endTag('div');
+            $html .= Html::endTag('div');
 
-        $html .= Html::tag('div', Html::tag('p', "No hay notificaciones disponibles."), ['class' => 'empty-row', "hidden" => true, 'id' => 'sinNotificaciones']);
+            $html .= Html::tag('div', Html::tag('p', "No hay notificaciones disponibles."), ['class' => 'empty-row', "hidden" => true, 'id' => 'sinNotificaciones']);
 
-        $footer = Html::a(Yii::t('modules/notifications', 'Ver todo'), ['/notifications/default/index'], ['style' => 'text-decoration:none;']);
-        $html .= Html::tag('div', $footer, ['class' => 'notif-dropdown__footer']);
+            $footer = Html::a(Yii::t('modules/notifications', 'Ver todo'), ['/notifications/default/index'], ['style' => 'text-decoration:none;']);
+            $html .= Html::tag('div', $footer, ['class' => 'notif-dropdown__footer']);
 
         $html .= Html::endTag('ul');
         $html .= Html::endTag('div');

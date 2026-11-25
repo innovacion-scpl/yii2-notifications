@@ -185,7 +185,7 @@ var Notifications = (function(opts) {
         loading = true;
         
         $.ajax({
-          url: location.origin + '/rrhh/notifications/default/list-ajax', 
+          url: options.urlListAjax,
           type: 'GET',
           data: {
             page: page,

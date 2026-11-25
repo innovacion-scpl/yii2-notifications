@@ -126,6 +126,7 @@ class Notifications extends \yii\base\Widget
             'countUrl' => Url::to(['/notifications/default/count']),
             'readUrl' => Url::to(['/notifications/default/read']),
             'readAllUrl' => Url::to(['/notifications/default/read-all']),
+            'urlListAjax' => Url::to(['/notifications/default/list-ajax']),
             'xhrTimeout' => Html::encode($this->xhrTimeout),
             'pollInterval' => Html::encode($this->pollInterval),
         ], $this->clientOptions);

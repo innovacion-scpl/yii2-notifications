@@ -1,12 +1,13 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\Pjax;
-use kartik\grid\GridView;
 use kartik\dialog\Dialog;
+use kartik\grid\GridView;
 use webzop\notifications\AdminAsset;
 use webzop\notifications\model\TipoNotificacionCanal;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\helpers\VarDumper;
+use yii\widgets\Pjax;
 
 AdminAsset::register($this);
 /* @var $this yii\web\View */
@@ -47,7 +48,7 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                             return html::checkbox('check_notify',false,[
                                     'value' => $model->id,
                                     'checked' => !empty($notificacionCanal) ? true : false,
-                                    'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanal->id.', '.$model->id.', "notifications/canal-notificacion/asociar-notificacion")',
+                                    'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanal->id.', '.$model->id.', "'.Url::to(['/notifications/canal-notificacion/asociar-notificacion']).'")',
                                     'class' => 'check',
                                 ]
                             ); 
@@ -71,7 +72,7 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                                     'value' => $model->id,
                                     'checked' => $check,
                                     'disabled' => empty($notificacionCanal),
-                                    'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanal->id.', '.$model->id.', "notifications/canal-notificacion/marcar-es-seleccionable")',
+                                    'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanal->id.', '.$model->id.', "'.Url::to(['/notifications/canal-notificacion/marcar-es-seleccionable']).'")',
                                     'class' => 'check',
                                 ]
                             ); 

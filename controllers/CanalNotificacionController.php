@@ -116,6 +116,7 @@ class CanalNotificacionController extends \yii\web\Controller
             }
             return $cambioEfectuado;           
         } catch (Exception $e) {
+            Yii::error(VarDumper::dumpAsString($e));
             return false;
         }
     }

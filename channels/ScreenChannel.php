@@ -23,6 +23,7 @@ class ScreenChannel extends Channel
         $modelNotification->user_id = $notification->userId;
         $modelNotification->created_at = $currTime;
         $res = $modelNotification->save();
+        return $res;
     }
 
 }

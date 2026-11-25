@@ -13,7 +13,7 @@ function checkAsociarAusentismo(check, canal_id, notificacion_id, url, user_id){
 function asignarDesasignarNoti(check, canal_id, notificacion_id, url, user_id){
     $.ajax({
         type: 'POST',
-        url: location.origin + "/rrhh/"+ url,
+        url: url,
         data: {
             'id_canal': canal_id,
             'id_notificacion': notificacion_id,

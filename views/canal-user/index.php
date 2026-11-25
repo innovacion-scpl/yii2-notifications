@@ -8,6 +8,7 @@ use webzop\notifications\model\CanalUser;
 use webzop\notifications\model\TipoNotificacionCanal;
 use backend\assets\AppAsset;
 use webzop\notifications\AdminAsset;
+use yii\helpers\Url;
 
 AdminAsset::register($this);
 AppAsset::register($this);
@@ -64,7 +65,7 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                     return html::checkbox('check_notify',false,[
                             'value' => $model->id,
                             'checked' => !empty($notificacionCanal) ? true : false,
-                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalEmail->id.', '.$model->id.', "notifications/canal-user/add", '.$user_id.')',
+                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalEmail->id.', '.$model->id.', "'.Url::to(['/notifications/canal-user/add']).'", '.$user_id.')',
                             'class' => 'check',
                             'disabled' => $disabled
                         ]
@@ -100,7 +101,7 @@ echo Dialog::widget(['overrideYiiConfirm' => true]);
                     return html::checkbox('check_notify',false,[
                             'value' => $model->id,
                             'checked' => !empty($notificacionCanal) ? true : false,
-                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalSystem->id.', '.$model->id.', "notifications/canal-user/add", '.$user_id.')',
+                            'onclick'=> 'checkAsociarAusentismo(this, '.$modelCanalSystem->id.', '.$model->id.', "'.Url::to(['/notifications/canal-user/add']).'", '.$user_id.')',
                             'class' => 'check',
                             'disabled' => $disabled
 

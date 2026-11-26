@@ -23,8 +23,18 @@ var Notifications = (function(opts) {
         pollInterval: 60000,
         xhrTimeout: 2000,
         readLabel: 'read',
-        markAsReadLabel: 'Marcar como leído'
+        markAsReadLabel: 'Marcar como leído',
+        maxLength: 115
     }, opts);
+
+    /**
+     * Recorta el mensaje (sin HTML) a options.maxLength caracteres
+     */
+    var truncate = function (message) {
+        var text = $('<div>').html(message).text().trim();
+        var short = text.length > options.maxLength ? text.substring(0, options.maxLength).trim() + '…' : text;
+        return $('<div>').text(short).html();
+    };
 
     /**
      * Renders a notification row
@@ -38,7 +48,7 @@ var Notifications = (function(opts) {
             ' data-class="' + object.class + '"' +
             ' data-key="' + object.key + '">' +
             '<span class="icon"></span> '+
-            '<span class="message">' + object.message + '</span>' +
+            '<span class="message" title="' + $('<div>').html(object.message).text().replace(/"/g, '&quot;') + '">' + truncate(object.message) + '</span>' +
             '<small class="timeago">' + object.timeago + '</small>' +
             '<span class="mark-read" data-bs-toggle="tooltip" title="' + (object.read != '0' ? options.readLabel : options.markAsReadLabel) + '"></span>' +
             '</li>';

@@ -23,7 +23,7 @@ class m010101_100001_init_notifications extends Migration
             'id' => $this->primaryKey(),
             'class' => $this->string(64)->notNull(),
             'key' => $this->string(32)->notNull(),
-            'message' => $this->string(255)->notNull(),
+            'message' => $this->string(300)->notNull(),
             'route' => $this->string(255)->notNull(),
             'seen' => $this->boolean()->notNull()->defaultValue(false),
             'read' => $this->boolean()->notNull()->defaultValue(false),

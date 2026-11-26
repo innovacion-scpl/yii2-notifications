@@ -26,7 +26,7 @@ class m250711_143049_canal_user extends Migration
         );
         $this->createIndex('canal_user_canal_notificacion_FK','{{%canal_user}}',['id_canal'],false);
         $this->createIndex('canal_user_tipo_notificacion_FK','{{%canal_user}}',['id_tipo_notificacion'],false);
-        $this->addPrimaryKey('pk_on_canal_user','{{%canal_user}}',['id_canal','id_user']);
+        $this->addPrimaryKey('pk_on_canal_user','{{%canal_user}}',['id_canal','id_user','id_tipo_notificacion']);
 
     }
 

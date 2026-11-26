@@ -1,3 +1,7 @@
+.notif-card {
+    text-align: left;
+    border-radius: 8px;
+}
 .notif-header {
     display: flex;
     align-items: center;
@@ -48,6 +52,10 @@
     font-size: 14px;
     color: #212529;
     text-decoration: none;
+}
+.notif-message p {
+    display: inline;
+    margin: 0;
 }
 .notif-unread .notif-message {
     font-weight: 600;

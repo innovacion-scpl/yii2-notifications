@@ -10,6 +10,9 @@ DefaultAsset::register($this);
 $this->title = "Notificaciones";
 ?>
 
+<div class="card bg-white border-0 shadow-sm notif-card">
+<div class="card-body">
+
 <div class="notif-header">
     <div class="notif-header-title">
         <span class="fas fa-bullhorn"></span>
@@ -30,9 +33,9 @@ $this->title = "Notificaciones";
     <div class="notif-item <?= $isRead ? 'notif-read' : 'notif-unread' ?>">
         <span class="notif-dot"></span>
 
-        <a href="<?= $url ?>" class="notif-message <?= $isRead ? 'read' : '' ?>" data-id="<?= $notif['id'] ?>" data-key="<?= $notif['key'] ?>">
+        <div class="notif-message <?= $isRead ? 'read' : '' ?>" data-id="<?= $notif['id'] ?>" data-key="<?= $notif['key'] ?>">
             <?= Html::decode($notif['message']) ?>
-        </a>
+        </div>
 
         <div class="notif-meta">
             <small class="timeago"><?= $notif['timeago']; ?></small>
@@ -61,4 +64,7 @@ $this->title = "Notificaciones";
 <?php } else { ?>
 <p class="empty-row text-muted"><i>No hay notificaciones para mostrar.</i></p>
 <?php } ?>
+
+</div>
+</div>
 
